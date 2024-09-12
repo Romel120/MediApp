@@ -23,3 +23,4 @@ export const POST = async (request) => {
         return new NextResponse("Error in creating User" , error.message , {status : 500}) ;
     }
 }
+
