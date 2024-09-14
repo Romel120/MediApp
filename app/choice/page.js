@@ -1,27 +1,60 @@
-// app/ChoicePage.jsx
+"use client"
+import { useState } from "react";
+import { FaUserMd, FaUser } from "react-icons/fa";
+import Link from "next/link"; 
+export default function ChoicePage() {
+  const [selected, setSelected] = useState(""); 
 
-import React from 'react';
+  const handleSelection = (option) => {
+    setSelected(option);
+  };
 
-const ChoicePage = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800">
-      <div className="flex space-x-10">
-        {/* Doctor Option */}
-        <div className="flex-1 bg-primary p-12 rounded-lg shadow-xl text-center transform transition-transform ">
-          <h1 className="text-4xl font-bold text-white mb-6">Doctors</h1>
-          <p className="text-white text-lg mb-6">Find experienced doctors for your medical needs.</p>
-          <button className="bg-secondary text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-opacity-80  hover:bg-accent transition">Select Doctors</button>
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold text-primary mb-6">Choose Account Type</h1>
+      
+      <div className="flex space-x-6 mb-8">
+       
+        <Link href="choice/doctorLogin">
+        <div
+          onClick={() => handleSelection("doctor")}
+          className={`border-2 rounded-lg p-16 flex flex-col items-center cursor-pointer transition-all duration-300 ${
+            selected === "doctor" ? "border-primary" : "border-gray-300"
+          }`}
+        >
+          <FaUserMd className="text-6xl text-primary mb-4" />
+          <h2 className="text-xl font-semibold text-text">Doctor</h2>
+          {selected === "doctor" && (
+            <div className="mt-2 text-blue-500">
+              <span className="text-2xl">✔️</span>
+            </div>
+          )}
         </div>
+        </Link>
+        <Link href="choice/patientLogin">
+        <div
+          onClick={() => handleSelection("patient")}
+          className={`border-2 rounded-lg p-16 flex flex-col items-center cursor-pointer transition-all duration-300 ${
+            selected === "patient" ? "border-primary" : "border-gray-300"
+          }`}
+        >
+          <FaUser className="text-6xl text-primary mb-4" />
+          <h2 className="text-xl font-semibold text-text">Patient</h2>
+          {selected === "patient" && (
+            <div className="mt-2 text-blue-500">
+              <span className="text-2xl">✔️</span>
+            </div>
+          )}
+        </div>
+        </Link>
+      </div>
 
-        {/* Patient Option */}
-        <div className="flex-1 bg-secondary p-12 rounded-lg shadow-xl text-center transform transition-transform">
-          <h1 className="text-4xl font-bold text-white mb-6">Patients</h1>
-          <p className="text-white text-lg mb-6">Access resources and manage your appointments.</p>
-          <button className="bg-primary text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-opacity-80 hover:bg-accent transition">Select Patients</button>
-        </div>
+      <div className="text-center">
+        <p className="text-xl font-medium text-text">
+          {selected === "doctor" ? "Hello doctor!" : "Hello patient!"}
+        </p>
+        <p className="text-gray-500">Please fill out the form below to get started</p>
       </div>
     </div>
   );
-};
-
-export default ChoicePage;
+}
