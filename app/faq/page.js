@@ -1,4 +1,5 @@
-export default function FAQ() {
+export default async function FAQ() {
+  await new Promise((resolve) => setTimeout(resolve,1000));
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-primary">Frequently Asked Questions</h1>
