@@ -6,11 +6,13 @@ import Link from "next/link";
 const SignupForm = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
+    username: "",
     email: "",
     dob: "",
     phone: "",
     nationality: "",
-    idType: "",
+    gender: "",
+    age: "" ,
     password: "",
     confirmPassword: "",
   });
@@ -51,11 +53,11 @@ const SignupForm = () => {
           </div>
 
           <div>
-            <label htmlFor="fullName" className="block text-text font-medium">Username</label>
+            <label htmlFor="username" className="block text-text font-medium">Username</label>
             <input
               type="text"
-              id="fullName"
-              name="fullName"
+              id="username"
+              name="username"
               value={signupData.userName}
               onChange={handleSignupChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
@@ -130,7 +132,7 @@ const SignupForm = () => {
 
           {/* Gender Type */}
           <div>
-            <label htmlFor="idType" className="block text-text font-medium">Gender</label>
+            <label htmlFor="gender" className="block text-text font-medium">Gender</label>
             <select
               id="gender"
               name="gender"
@@ -147,7 +149,7 @@ const SignupForm = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-text font-medium">Age</label>
+            <label htmlFor="age" className="block text-text font-medium">Age</label>
             <input
               type="number"
               id="age"
@@ -214,10 +216,25 @@ const LoginForm = () => {
     setLoginData({ ...loginData, [name]: value });
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", loginData);
+  
+    const res = await fetch("/api/patient/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
+  
+    const data = await res.json();
+    if (res.status === 200) {
+      console.log("Login successful", data);
+    } else {
+      console.error("Login failed", data);
+    }
   };
+  
 
   return (
     <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">

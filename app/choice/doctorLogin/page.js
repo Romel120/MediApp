@@ -6,12 +6,15 @@ import Link from "next/link";
 const DoctorSignupForm = () => {
   const [doctorSignupData, setDoctorSignupData] = useState({
     fullName: "",
+    username: "" ,
     email: "",
     dob: "",
     phone: "",
     medicalLicense: "",
     specialization: "",
     idType: "",
+    gender: "" ,
+    age: "" ,
     password: "",
     confirmPassword: "",
   });
@@ -52,12 +55,12 @@ const DoctorSignupForm = () => {
           </div>
 
           <div>
-            <label htmlFor="fullName" className="block text-text font-medium">Username</label>
+            <label htmlFor="username" className="block text-text font-medium">Username</label>
             <input
               type="text"
-              id="fullName"
-              name="fullName"
-              value={doctorSignupData.userName}
+              id="username"
+              name="username"
+              value={doctorSignupData.username}
               onChange={handleDoctorSignupChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Enter your username"
@@ -163,7 +166,7 @@ const DoctorSignupForm = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="idType" className="block text-text font-medium">Gender</label>
+            <label htmlFor="gender" className="block text-text font-medium">Gender</label>
             <select
               id="gender"
               name="gender"
@@ -179,7 +182,7 @@ const DoctorSignupForm = () => {
             </select>
           </div>
           <div>
-            <label htmlFor="Age" className="block text-text font-medium">Age</label>
+            <label htmlFor="age" className="block text-text font-medium">Age</label>
             <input
               type="number"
               id="age"
@@ -248,10 +251,25 @@ const DoctorLoginForm = () => {
     setLoginData({ ...loginData, [name]: value });
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("Doctor Login Data:", loginData);
+  
+    const res = await fetch("/api/doctor/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginData),
+    });
+  
+    const data = await res.json();
+    if (res.status === 200) {
+      console.log("Login successful", data);
+    } else {
+      console.error("Login failed", data);
+    }
   };
+  
 
   return (
     <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
