@@ -97,7 +97,7 @@ export default function Mainsection() {
         <img
           src="/assets/welcome.jpg"
           alt="Health Background"
-          className="absolute inset-0 w-full h-full bg-cover"
+          className="absolute inset-0 w-full h-full"
         />
 
         {/* Overlay Content */}

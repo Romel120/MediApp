@@ -1,7 +1,7 @@
 // app/Navbar.jsx
 
 import Link from "next/link";
-import { FaSearch, FaCalendarAlt, FaQuestionCircle, FaInfoCircle } from "react-icons/fa";
+import { FaBlogger ,FaSearch, FaCalendarAlt, FaQuestionCircle, FaInfoCircle } from "react-icons/fa";
 
 export default function Navbar() {
   return (
@@ -21,6 +21,11 @@ export default function Navbar() {
           <Link href="/book-appointment">
             <button className="text-text font-medium flex items-center hover:text-primary transition-colors duration-300">
               <FaCalendarAlt className="h-5 w-5 mr-2" /> Book Appointment
+            </button>
+          </Link>
+          <Link href="/blog">
+            <button className="text-text font-medium flex items-center hover:text-primary transition-colors duration-300">
+              <FaBlogger  className="h-5 w-5 mr-2" /> Blogs
             </button>
           </Link>
           <Link href="/faq">
