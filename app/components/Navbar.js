@@ -5,7 +5,7 @@ import { FaSearch, FaCalendarAlt, FaQuestionCircle, FaInfoCircle } from "react-i
 
 export default function Navbar() {
   return (
-    <div className="bg-background mb-20">
+    <div className="bg-background mb-15">
       <nav className="bg-background shadow-lg py-4 px-6 flex justify-between items-center fixed w-full top-0 z-20">
         <Link href="/">
           <div className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-primary hover:text-green-700 transition-colors duration-300">
