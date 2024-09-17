@@ -61,7 +61,7 @@ export default function Mainsection() {
           <div className="flex w-full">
             <div>
               <button
-                className="bg-primary text-text text-lg font-semibold mr-2 px-8 py-3 rounded-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg"
+                className="bg-indigo-600 text-white text-lg font-semibold mr-2 px-8 py-3 rounded-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg"
                 onClick={() => setSpecialtyOpen(!isSpecialtyOpen)}
               >
                 Specialty

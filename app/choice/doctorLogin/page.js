@@ -34,7 +34,7 @@ const DoctorSignupForm = () => {
   };
 
   return (
-    <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg">
+    <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg mt-28">
       <h1 className="text-3xl font-bold text-primary mb-6">Sign up as Doctor</h1>
       <p className="text-gray-600 mb-4">Enter your details to create your account.</p>
       <form onSubmit={handleDoctorSignupSubmit} className="space-y-6">
@@ -272,7 +272,7 @@ const DoctorLoginForm = () => {
   
 
   return (
-    <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+    <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg mt-28">
       <h1 className="text-3xl font-bold text-primary mb-6">Welcome back</h1>
       <p className="text-gray-600 mb-4">Log in as a Doctor below.</p>
       <form onSubmit={handleLoginSubmit} className="space-y-6">

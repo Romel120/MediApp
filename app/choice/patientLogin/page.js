@@ -32,7 +32,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg">
+    <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg mt-24">
       <h1 className="text-3xl font-bold text-primary mb-6">Sign up</h1>
       <p className="text-gray-600 mb-4">Enter your details to create your account.</p>
       <form onSubmit={handleSignupSubmit} className="space-y-6">
@@ -61,7 +61,7 @@ const SignupForm = () => {
               value={signupData.userName}
               onChange={handleSignupChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Enter your full name"
+              placeholder="Enter your username"
               required
             />
           </div>
@@ -237,7 +237,7 @@ const LoginForm = () => {
   
 
   return (
-    <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+    <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg mt-24">
       <h1 className="text-3xl font-bold text-primary mb-6">Welcome back</h1>
       <p className="text-gray-600 mb-4">Glad to see you again! Log in below.</p>
       <form onSubmit={handleLoginSubmit} className="space-y-6">
