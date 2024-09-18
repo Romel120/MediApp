@@ -3,30 +3,51 @@ import Doctor from "@/lib/models/doctor";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
-// Doctor Signup (POST)
+// Combined Doctor Signup and Login
 export const POST = async (request) => {
   try {
-    const { fullName, username, email, dob, phone, medicalLicense, specialization, idType, gender, age, password } = await request.json();
+    // Parse the incoming JSON data
+    const { action, email, password, fullName, username, dob, phone, medicalLicense, specialization, idType, gender, age } = await request.json();
+    
+    // Connect to the database
     await connect();
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newDoctor = new Doctor({
-      fullName,
-      username,
-      email,
-      dob,
-      phone,
-      medicalLicense,
-      specialization,
-      idType,
-      gender,
-      age,
-      password: hashedPassword,
-    });
+    if (action === "signup") {
+      // Signup logic
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newDoctor = new Doctor({
+        fullName,
+        username,
+        email,
+        dob,
+        phone,
+        medicalLicense,
+        specialization,
+        idType,
+        gender,
+        age,
+        password: hashedPassword,
+      });
 
-    await newDoctor.save();
-    return new NextResponse("Doctor account created successfully", { status: 201 });
+      await newDoctor.save();
+      return new NextResponse("Doctor account created successfully", { status: 201 });
+    } else if (action === "login") {
+      // Login logic
+      const doctor = await Doctor.findOne({ email });
+      if (!doctor) {
+        return new NextResponse("Doctor not found", { status: 404 });
+      }
+
+      const isPasswordCorrect = await bcrypt.compare(password, doctor.password);
+      if (!isPasswordCorrect) {
+        return new NextResponse("Invalid credentials", { status: 401 });
+      }
+
+      return new NextResponse("Login successful", { status: 200 });
+    } else {
+      return new NextResponse("Invalid action", { status: 400 });
+    }
   } catch (error) {
-    return new NextResponse("Error creating doctor", { status: 500 });
+    return new NextResponse("An error occurred", { status: 500 });
   }
 };

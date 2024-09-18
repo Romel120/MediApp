@@ -51,7 +51,9 @@ export default function ChoicePage() {
 
       <div className="text-center">
         <p className="text-xl font-medium text-text">
-          {selected === "doctor" ? "Hello doctor!" : "Hello patient!"}
+        {selected === "doctor" ? "Hello doctor!" : 
+     selected === "patient" ? "Hello patient!" : 
+     "Hello user!"}
         </p>
         <p className="text-gray-500">Please fill out the form below to get started</p>
       </div>

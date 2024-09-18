@@ -1,9 +1,11 @@
-"use client";
+//app/choice/patientLogin/page.js
+"use client"
 import { useState } from "react";
-import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-// Signup Form Component
-const SignupForm = () => {
+// Patient Signup Form Component
+const PatientSignupForm = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
     username: "",
@@ -12,7 +14,7 @@ const SignupForm = () => {
     phone: "",
     nationality: "",
     gender: "",
-    age: "" ,
+    age: "",
     password: "",
     confirmPassword: "",
   });
@@ -22,19 +24,55 @@ const SignupForm = () => {
     setSignupData({ ...signupData, [name]: value });
   };
 
-  const handleSignupSubmit = (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate passwords
     if (signupData.password !== signupData.confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
-    console.log("Signup Data:", signupData);
+
+    try {
+      const response = await fetch("/api/patient", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "signup",
+          ...signupData,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Patient account created successfully");
+        setSignupData({
+          fullName: "",
+          username: "",
+          email: "",
+          dob: "",
+          phone: "",
+          nationality: "",
+          gender: "",
+          age: "",
+          password: "",
+          confirmPassword: "",
+        });
+      } else {
+        const errorData = await response.text();
+        toast.error(errorData || "An error occurred");
+      }
+    } catch (error) {
+      toast.error("An error occurred while creating the account");
+    }
   };
 
   return (
     <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg mt-24">
       <h1 className="text-3xl font-bold text-primary mb-6">Sign up</h1>
       <p className="text-gray-600 mb-4">Enter your details to create your account.</p>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
       <form onSubmit={handleSignupSubmit} className="space-y-6">
         <div className="grid grid-cols-2 gap-6">
           {/* Full Name */}
@@ -194,7 +232,7 @@ const SignupForm = () => {
         </div>
 
         <div className="flex justify-between items-center">
-         
+
           <button type="submit" className="px-6 py-3 bg-primary text-white rounded-md">
             Submit
           </button>
@@ -204,8 +242,8 @@ const SignupForm = () => {
   );
 };
 
-// Login Form Component
-const LoginForm = () => {
+// Patient Login Form Component
+const PatientLoginForm = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -218,28 +256,35 @@ const LoginForm = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-  
-    const res = await fetch("/api/patient/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    });
-  
-    const data = await res.json();
-    if (res.status === 200) {
-      console.log("Login successful", data);
-    } else {
-      console.error("Login failed", data);
+
+    try {
+      const res = await fetch("/api/patient", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "login",
+          ...loginData,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success("Login successful");
+      } else {
+        const errorData = await res.text();
+        toast.error(errorData || "Login failed");
+      }
+    } catch (error) {
+      toast.error("An error occurred during login");
     }
   };
-  
 
   return (
     <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg mt-24">
       <h1 className="text-3xl font-bold text-primary mb-6">Welcome back</h1>
       <p className="text-gray-600 mb-4">Glad to see you again! Log in below.</p>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
       <form onSubmit={handleLoginSubmit} className="space-y-6">
         <div>
           <label htmlFor="email" className="block text-text font-medium">Email</label>
@@ -279,13 +324,13 @@ const LoginForm = () => {
   );
 };
 
-// Main Page Component
-export default function AuthPage() {
+// Main Page Component for Patient Auth
+export default function PatientAuthPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-8">
-        <SignupForm />
-        <LoginForm />
+        <PatientSignupForm />
+        <PatientLoginForm />
       </div>
     </div>
   );

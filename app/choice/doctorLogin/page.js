@@ -1,20 +1,23 @@
 "use client";
 import { useState } from "react";
+
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Link from "next/link";
 
 // Doctor Signup Form Component
 const DoctorSignupForm = () => {
   const [doctorSignupData, setDoctorSignupData] = useState({
     fullName: "",
-    username: "" ,
+    username: "",
     email: "",
     dob: "",
     phone: "",
     medicalLicense: "",
     specialization: "",
     idType: "",
-    gender: "" ,
-    age: "" ,
+    gender: "",
+    age: "",
     password: "",
     confirmPassword: "",
   });
@@ -24,19 +27,59 @@ const DoctorSignupForm = () => {
     setDoctorSignupData({ ...doctorSignupData, [name]: value });
   };
 
-  const handleDoctorSignupSubmit = (e) => {
+  const handleDoctorSignupSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate passwords
     if (doctorSignupData.password !== doctorSignupData.confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
-    console.log("Doctor Signup Data:", doctorSignupData);
+
+    try {
+      const response = await fetch("/api/doctor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "signup", // Specify the action
+          ...doctorSignupData,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Doctor account created successfully");
+        setDoctorSignupData({
+          fullName: "",
+          username: "",
+          email: "",
+          dob: "",
+          phone: "",
+          medicalLicense: "",
+          specialization: "",
+          idType: "",
+          gender: "",
+          age: "",
+          password: "",
+          confirmPassword: "",
+        });
+      } else {
+        const errorData = await response.text();
+        toast.error(errorData || "An error occurred");
+      }
+    } catch (error) {
+      toast.error("An error occurred while creating the account");
+    }
   };
+
 
   return (
     <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg mt-28">
       <h1 className="text-3xl font-bold text-primary mb-6">Sign up as Doctor</h1>
       <p className="text-gray-600 mb-4">Enter your details to create your account.</p>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
+
       <form onSubmit={handleDoctorSignupSubmit} className="space-y-6">
         <div className="grid grid-cols-2 gap-6">
           {/* Full Name */}
@@ -239,7 +282,6 @@ const DoctorSignupForm = () => {
   );
 };
 
-// Doctor Login Form Component
 const DoctorLoginForm = () => {
   const [loginData, setLoginData] = useState({
     email: "",
@@ -253,28 +295,38 @@ const DoctorLoginForm = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-  
-    const res = await fetch("/api/doctor/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    });
-  
-    const data = await res.json();
-    if (res.status === 200) {
-      console.log("Login successful", data);
-    } else {
-      console.error("Login failed", data);
+
+    try {
+      const res = await fetch("/api/doctor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "login", // Specify the action
+          ...loginData,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success("Login successful");
+      } else {
+        const errorData = await res.text();
+        toast.error(errorData || "Login failed");
+      }
+    } catch (error) {
+      toast.error("An error occurred during login");
     }
   };
-  
 
   return (
     <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg mt-28">
       <h1 className="text-3xl font-bold text-primary mb-6">Welcome back</h1>
       <p className="text-gray-600 mb-4">Log in as a Doctor below.</p>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
+
       <form onSubmit={handleLoginSubmit} className="space-y-6">
         <div>
           <label htmlFor="email" className="block text-text font-medium">Email</label>
@@ -313,6 +365,7 @@ const DoctorLoginForm = () => {
     </div>
   );
 };
+
 
 // Main Page Component for Doctor Auth
 export default function DoctorAuthPage() {
