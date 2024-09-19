@@ -51,3 +51,21 @@ export const POST = async (request) => {
     return new NextResponse("An error occurred", { status: 500 });
   }
 };
+
+
+export async function GET(req) {
+  await connect();
+
+  try {
+    // Fetch all doctors from the database
+    const doctors = await Doctor.find({});
+
+    return new Response(JSON.stringify(doctors), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error fetching doctors:", error);
+    return new Response("Error fetching doctors", { status: 500 });
+  }
+}

@@ -297,7 +297,7 @@ const DoctorLoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/doctor", {
+      const res = await fetch("/api/doctor/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -309,7 +309,16 @@ const DoctorLoginForm = () => {
       });
 
       if (res.ok) {
+        const data = await res.json();
+        const { token } = data; // Extract token
+
+        // Save token to localStorage
+        localStorage.setItem("token", token);
+
         toast.success("Login successful");
+
+        // Redirect to homepage after successful login
+        window.location.href = "/"; // Assuming homepage is at "/"
       } else {
         const errorData = await res.text();
         toast.error(errorData || "Login failed");
@@ -324,7 +333,6 @@ const DoctorLoginForm = () => {
       <h1 className="text-3xl font-bold text-primary mb-6">Welcome back</h1>
       <p className="text-gray-600 mb-4">Log in as a Doctor below.</p>
 
-      {/* Toast Container */}
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
 
       <form onSubmit={handleLoginSubmit} className="space-y-6">
@@ -365,6 +373,7 @@ const DoctorLoginForm = () => {
     </div>
   );
 };
+
 
 
 // Main Page Component for Doctor Auth
