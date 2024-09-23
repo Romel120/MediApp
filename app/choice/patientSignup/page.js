@@ -34,15 +34,12 @@ const PatientSignupForm = () => {
         }
 
         try {
-            const response = await fetch("/api/patient", {
+            const response = await fetch("/api2/patients/signup", { // Updated the endpoint
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    action: "signup",
-                    ...signupData,
-                }),
+                body: JSON.stringify(signupData), // Send the signup data directly
             });
 
             if (response.ok) {

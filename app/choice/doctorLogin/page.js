@@ -20,15 +20,12 @@ const DoctorLoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/doctor/login", {
+      const res = await fetch("/api2/doctors/login", { // Updated the endpoint
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          action: "login",
-          ...loginData,
-        }),
+        body: JSON.stringify(loginData), // Send the login data directly
       });
 
       if (res.ok) {

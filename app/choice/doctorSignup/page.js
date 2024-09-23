@@ -36,15 +36,12 @@ const DoctorSignupForm = () => {
         }
 
         try {
-            const response = await fetch("/api/doctor", {
+            const response = await fetch("/api2/doctors/signup", { // Updated the endpoint
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    action: "signup", // Specify the action
-                    ...doctorSignupData,
-                }),
+                body: JSON.stringify(doctorSignupData), // Send the signup data directly
             });
 
             if (response.ok) {
@@ -71,7 +68,6 @@ const DoctorSignupForm = () => {
             toast.error("An error occurred while creating the account");
         }
     };
-
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg mt-24 transition-transform duration-300 hover:shadow-xl">

@@ -28,7 +28,17 @@ console.log("Password match:", isMatch);
         // Generate JWT token
         const token = jwt.sign({ id: doctor._id }, process.env.TOKEN_SECRET, { expiresIn: "1h" });
 
-        return NextResponse.json({
+        // return NextResponse.json({
+        //     message: "Login successful",
+        //     token,
+        //     doctor: {
+        //         id: doctor._id,
+        //         email: doctor.email,
+        //         fullName: doctor.fullName,
+        //     },
+        // });
+        
+        const response = NextResponse.json({
             message: "Login successful",
             token,
             doctor: {
@@ -37,6 +47,11 @@ console.log("Password match:", isMatch);
                 fullName: doctor.fullName,
             },
         });
+        
+        // Set the cookie with the token
+        response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
+        
+        return response;
     } catch (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
