@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { FaUserMd, FaUser } from "react-icons/fa";
 import Link from "next/link"; 
+
 export default function ChoicePage() {
   const [selected, setSelected] = useState(""); 
 
@@ -10,52 +11,68 @@ export default function ChoicePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold text-primary mb-6">Choose Account Type</h1>
+    <div className="min-h-screen bg-gradient-to-r from-indigo-50 to-blue-100 flex flex-col items-center justify-center p-6">
+      <h1 className="text-5xl font-extrabold text-primary mb-12">Choose Account Type</h1>
       
-      <div className="flex space-x-6 mb-8">
+      <div className="flex space-x-12 mb-16">
        
-        <Link href="choice/doctorLogin">
+        {/* Doctor Card */}
         <div
           onClick={() => handleSelection("doctor")}
-          className={`border-2 rounded-lg p-16 flex flex-col items-center cursor-pointer transition-all duration-300 ${
-            selected === "doctor" ? "border-primary" : "border-gray-300"
+          className={`border-4 rounded-xl p-14 flex flex-col items-center cursor-pointer transition-all duration-300 w-80 h-96 shadow-lg hover:shadow-2xl transform hover:scale-105 ${
+            selected === "doctor" ? "border-primary bg-white" : "border-gray-300 bg-gray-50"
           }`}
         >
-          <FaUserMd className="text-6xl text-primary mb-4" />
-          <h2 className="text-xl font-semibold text-text">Doctor</h2>
+          <FaUserMd style={{ fontSize: "80px" }} className="text-primary mb-6" />
+          <h2 className="text-2xl font-semibold text-text mb-4">Doctor</h2>
           {selected === "doctor" && (
             <div className="mt-2 text-blue-500">
-              <span className="text-2xl">✔️</span>
+              <span className="text-3xl">✔️</span>
             </div>
           )}
+          <div className="mt-6">
+            <Link href="/choice/doctorLogin">
+              <button className="bg-primary text-white py-3 px-6 rounded-full mb-3 w-52 hover:bg-blue-600 transition-colors">Login as Doctor</button>
+            </Link>
+            <Link href="/choice/doctorSignup">
+              <button className="bg-secondary text-white py-3 px-6 rounded-full w-52 hover:bg-green-600 transition-colors">Signup as Doctor</button>
+            </Link>
+          </div>
         </div>
-        </Link>
-        <Link href="choice/patientLogin">
+        
+        {/* Patient Card */}
         <div
           onClick={() => handleSelection("patient")}
-          className={`border-2 rounded-lg p-16 flex flex-col items-center cursor-pointer transition-all duration-300 ${
-            selected === "patient" ? "border-primary" : "border-gray-300"
+          className={`border-4 rounded-xl p-14 flex flex-col items-center cursor-pointer transition-all duration-300 w-80 h-96 shadow-lg hover:shadow-2xl transform hover:scale-105 ${
+            selected === "patient" ? "border-primary bg-white" : "border-gray-300 bg-gray-50"
           }`}
         >
-          <FaUser className="text-6xl text-primary mb-4" />
-          <h2 className="text-xl font-semibold text-text">Patient</h2>
+          <FaUser style={{ fontSize: "80px" }} className="text-primary mb-6" />
+          <h2 className="text-2xl font-semibold text-text mb-4">Patient</h2>
           {selected === "patient" && (
             <div className="mt-2 text-blue-500">
-              <span className="text-2xl">✔️</span>
+              <span className="text-3xl">✔️</span>
             </div>
           )}
+          <div className="mt-6">
+            <Link href="/choice/patientLogin">
+              <button className="bg-primary text-white py-3 px-6 rounded-full mb-3 w-52 hover:bg-blue-600 transition-colors">Login as Patient</button>
+            </Link>
+            <Link href="/choice/patientSignup">
+              <button className="bg-secondary text-white py-3 px-6 rounded-full w-52 hover:bg-green-600 transition-colors">Signup as Patient</button>
+            </Link>
+          </div>
         </div>
-        </Link>
+
       </div>
 
       <div className="text-center">
-        <p className="text-xl font-medium text-text">
-        {selected === "doctor" ? "Hello doctor!" : 
-     selected === "patient" ? "Hello patient!" : 
-     "Hello user!"}
+        <p className="text-2xl font-medium text-text mb-2">
+          {selected === "doctor" ? "Hello doctor!" : 
+          selected === "patient" ? "Hello patient!" : 
+          "Hello user!"}
         </p>
-        <p className="text-gray-500">Please fill out the form below to get started</p>
+        <p className="text-gray-500">Please choose an option to get started.</p>
       </div>
     </div>
   );
