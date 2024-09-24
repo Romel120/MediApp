@@ -4,8 +4,8 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dbConnect from '@/lib/db';
 
+dbConnect(); // Ensure the database connection is established
 export async function POST(request) {
-    await dbConnect(); // Ensure the database connection is established
     try {
         const { email, password } = await request.json();
 
@@ -32,10 +32,12 @@ export async function POST(request) {
                 email: patient.email,
                 fullName: patient.fullName,
             },
+            userType: "patient",
         });
 
         // Set the token cookie
         response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
+        response.cookies.set('userType', 'patient', { httpOnly: true, maxAge: 3600 }); // Setting userType cookie
 
         return response;
     } catch (error) {
