@@ -40,8 +40,8 @@ export async function POST(request) {
         });
 
         // Set the cookie with the token
-        response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
-        response.cookies.set('userType', 'doctor', { httpOnly: true, maxAge: 3600 }); // Setting userType cookie
+        response.cookies.set('token', token, { maxAge: 3600, path: '/' });
+        response.cookies.set('userType', 'doctor', { maxAge: 3600, path: '/' });
 
         return response;
     } catch (error) {

@@ -30,22 +30,18 @@ const DoctorLoginForm = () => {
 
       if (res.ok) {
         const data = await res.json();
-        const { doctorId } = data;  // Extract doctorId
-
-        // Save doctor ID to localStorage
-        localStorage.setItem("doctorId", doctorId);
-
         toast.success("Login successful");
-        // Redirect to homepage or doctor profile page
+        // Redirect to homepage or patient profile page
         window.location.href = "/doctorProfile";
       } else {
-        const errorData = await res.text();
-        toast.error(errorData || "Login failed");
+        const errorData = await res.json();
+        toast.error(errorData.error || "Login failed");
       }
     } catch (error) {
       toast.error("An error occurred during login");
     }
   };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

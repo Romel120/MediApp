@@ -2,26 +2,34 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBlogger, FaSearch, FaCalendarAlt, FaQuestionCircle, FaInfoCircle } from "react-icons/fa";
+import { getCookie, removeCookies } from 'cookies-next';
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [dropdownVisible, setDropdownVisible] = useState(false); // Track dropdown visibility
-
+  const [userType, setUserType] = useState("");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
-    // Check if the token exists in localStorage
-    const token = localStorage.getItem("token");
+    // Access cookies directly
+    const token = getCookie("token");
+    const type = getCookie("userType");
+
     if (token) {
-      setIsLoggedIn(true); // If token exists, user is logged in
+      setIsLoggedIn(true);
+      if (type) {
+        setUserType(type);
+      }
     }
   }, []);
 
   const handleLogout = () => {
-    // Remove token from localStorage
-    localStorage.removeItem("token");
+    // Remove cookies manually
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "userType=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    
     setIsLoggedIn(false);
     window.location.href = "/"; // Redirect to homepage after logout
-  };
+};
 
   return (
     <div className="bg-background mb-15">
@@ -60,27 +68,27 @@ export default function Navbar() {
 
           {isLoggedIn ? (
             <div
-            className="relative"
-            onMouseEnter={() => setDropdownVisible(true)} // Show dropdown on hover
-            onMouseLeave={() => setDropdownVisible(false)} // Hide dropdown on mouse leave
-          >
-            <button className="bg-secondary text-white px-6 py-2 rounded-md hover:bg-accent transition-all duration-300 shadow-lg">
-              My Account
-            </button>
-            {dropdownVisible && ( // Only show dropdown when dropdownVisible is true
-              <div className="absolute right-0 mt-0.5 w-48 bg-white text-black shadow-lg rounded-lg">
-                <Link className="block px-4 py-2 hover:bg-gray-200" href="/doctorProfile">
-                  Profile
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
+              className="relative"
+              onMouseEnter={() => setDropdownVisible(true)}
+              onMouseLeave={() => setDropdownVisible(false)}
+            >
+              <button className="bg-secondary text-white px-6 py-2 rounded-md hover:bg-accent transition-all duration-300 shadow-lg">
+                My Account
+              </button>
+              {dropdownVisible && (
+                <div className="absolute right-0 mt-0.5 w-48 bg-white text-black shadow-lg rounded-lg">
+                  <Link className="block px-4 py-2 hover:bg-gray-200" href={userType === 'doctor' ? "/doctorProfile" : "/patientProfile"}>
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <Link href="/choice">
               <button className="bg-primary text-white px-6 py-2 rounded-md hover:bg-accent transition-all duration-300 shadow-lg">

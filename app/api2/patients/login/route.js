@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import dbConnect from '@/lib/db';
 
 dbConnect(); // Ensure the database connection is established
+
 export async function POST(request) {
     try {
         const { email, password } = await request.json();
@@ -26,7 +27,6 @@ export async function POST(request) {
 
         const response = NextResponse.json({
             message: "Login successful",
-            token,
             patient: {
                 id: patient._id,
                 email: patient.email,
@@ -35,9 +35,9 @@ export async function POST(request) {
             userType: "patient",
         });
 
-        // Set the token cookie
-        response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
-        response.cookies.set('userType', 'patient', { httpOnly: true, maxAge: 3600 }); // Setting userType cookie
+        // Set the token cookie (without httpOnly and secure for local development)
+        response.cookies.set('token', token, { maxAge: 3600, path: '/' });
+        response.cookies.set('userType', 'patient', { maxAge: 3600, path: '/' });
 
         return response;
     } catch (error) {

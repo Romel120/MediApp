@@ -4,7 +4,6 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Link from "next/link";
 
-// Patient Login Form Component
 const PatientLoginForm = () => {
   const [loginData, setLoginData] = useState({
     email: "",
@@ -20,27 +19,22 @@ const PatientLoginForm = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api2/patients/login", { // Updated the endpoint
+      const res = await fetch("/api2/patients/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(loginData), // Send the login data directly
+        body: JSON.stringify(loginData),
       });
 
       if (res.ok) {
         const data = await res.json();
-        const { patientId } = data;  // Extract patientId
-
-        // Save patient ID to localStorage
-        localStorage.setItem("patientId", patientId);
-
         toast.success("Login successful");
         // Redirect to homepage or patient profile page
         window.location.href = "/patientProfile";
       } else {
-        const errorData = await res.text();
-        toast.error(errorData || "Login failed");
+        const errorData = await res.json();
+        toast.error(errorData.error || "Login failed");
       }
     } catch (error) {
       toast.error("An error occurred during login");
