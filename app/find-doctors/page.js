@@ -1,86 +1,65 @@
-import React from 'react';
+"use client";
 
-export default function FindDoctor() {
-    return (
-        <div className="min-h-screen bg-background flex mt-20">
-            {/* Sidebar */}
-            <div className="w-64 bg-primary text-white p-4">
-                <div className="mb-4">
-                    <label htmlFor="doctor" className="block mb-2">Select</label>
-                    <select id="doctor" className="w-full p-2 rounded bg-white text-black">
-                        <option value="doctor">Doctor</option>
-                        {/* Add other options as needed */}
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        placeholder="Search doctors..."
-                        className="w-full p-2 rounded bg-white text-black"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="gender" className="block mb-2">Gender</label>
-                    <select id="gender" className="w-full p-2 rounded bg-white text-black">
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        {/* Add other options as needed */}
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="specialties" className="block mb-2">Specialties</label>
-                    <select id="specialties" className="w-full p-2 rounded bg-white text-black">
-                        <option value="">Select Specialties</option>
-                        {/* Add other specialties */}
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="countries" className="block mb-2">Countries</label>
-                    <select id="countries" className="w-full p-2 rounded bg-white text-black">
-                        <option value="">Select Country</option>
-                        {/* Add country options */}
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="cities" className="block mb-2">Cities</label>
-                    <select id="cities" className="w-full p-2 rounded bg-white text-black">
-                        <option value="">Select City</option>
-                        {/* Add city options */}
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="distance" className="block mb-2">Distance</label>
-                    <select id="distance" className="w-full p-2 rounded bg-white text-black">
-                        <option value="">Select Distance</option>
-                        {/* Add distance options */}
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="consultation-type" className="block mb-2">Consultation Type</label>
-                    <select id="consultation-type" className="w-full p-2 rounded bg-white text-black">
-                        <option value="">Select Type</option>
-                        {/* Add consultation types */}
-                    </select>
-                </div>
-                <button className="w-full bg-accent p-2 rounded">Search</button>
-            </div>
+import { useState, useEffect } from "react";
+import DoctorCard from "@/app/components/DoctorCard";
+import DoctorFilterSidebar from "@/app/components/DoctorFilterSidebar";
 
-            {/* Main Content Area */}
-            <div className="flex-1 p-8">
-                <h1 className="text-4xl font-bold text-primary">Find Doctor</h1>
-                <p className="mt-4 text-text">Search and explore specialists based on your needs.</p>
+export default function FindDoctors() {
+  const [doctors, setDoctors] = useState([]);           // All doctors from the API
+  const [filteredDoctors, setFilteredDoctors] = useState([]);  // Doctors after filtering
+  const [specializations, setSpecializations] = useState([]);
+  const [locations, setLocations] = useState([]);
 
-                {/* Add doctor contents here */}
-                <div className="mt-8">
-                    <h2 className="text-2xl font-semibold text-primary">Doctors List</h2>
-                    {/* Placeholder content */}
-                    <div className="mt-4">
-                        {/* Add doctor cards or list items here */}
-                        <p className="text-text">No doctors found. Please refine your search.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+  useEffect(() => {
+    // Fetch doctors from the API
+    const fetchDoctors = async () => {
+      const response = await fetch("/api2/doctors/finddoctor"); // Fetch all doctors from your API
+      const data = await response.json();
+      setDoctors(data.doctors);                   // Set all doctors
+      setFilteredDoctors(data.doctors);           // Initially show all doctors
+
+      // Extract unique specializations and locations
+      const uniqueSpecializations = [...new Set(data.doctors.map(doc => doc.specialization))];
+      const uniqueLocations = [...new Set(data.doctors.map(doc => doc.location))];
+      setSpecializations(uniqueSpecializations);
+      setLocations(uniqueLocations);
+    };
+
+    fetchDoctors();
+  }, []);
+
+  // Handle filtering logic
+  const handleFilterChange = ({ specialization, location }) => {
+    const filtered = doctors.filter(doc => {
+      return (
+        (!specialization || doc.specialization === specialization) &&
+        (!location || doc.location === location)
+      );
+    });
+    setFilteredDoctors(filtered);  // Update the displayed doctors based on the filter
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex mt-20">
+      {/* Sidebar */}
+      <div className="w-full md:w-1/4">
+        <DoctorFilterSidebar
+          specializations={specializations}
+          locations={locations}
+          onFilterChange={handleFilterChange}
+        />
+      </div>
+
+      {/* Doctor Cards */}
+      <div className="w-full md:w-3/4 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredDoctors.length > 0 ? (
+          filteredDoctors.map((doctor) => (
+            <DoctorCard key={doctor._id} doctor={doctor} />
+          ))
+        ) : (
+          <p className="text-center col-span-3">No doctors found.</p>
+        )}
+      </div>
+    </div>
+  );
 }
