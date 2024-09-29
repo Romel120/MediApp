@@ -4,11 +4,35 @@ import { useState, useEffect } from "react";
 import DoctorCard from "@/app/components/DoctorCard";
 import DoctorFilterSidebar from "@/app/components/DoctorFilterSidebar";
 
+ 
 export default function FindDoctors() {
   const [doctors, setDoctors] = useState([]);           // All doctors from the API
   const [filteredDoctors, setFilteredDoctors] = useState([]);  // Doctors after filtering
   const [specializations, setSpecializations] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // To handle loading state
+
+ const Loader = () => (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+      <style jsx>{`
+        .loader {
+          border-top-color: #3498db; /* Customize loader color */
+          animation: spin 1s linear infinite;
+        }
+  
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+
 
   useEffect(() => {
     // Fetch doctors from the API
@@ -23,6 +47,7 @@ export default function FindDoctors() {
       const uniqueLocations = [...new Set(data.doctors.map(doc => doc.location))];
       setSpecializations(uniqueSpecializations);
       setLocations(uniqueLocations);
+      setIsLoading(false);
     };
 
     fetchDoctors();
@@ -38,6 +63,10 @@ export default function FindDoctors() {
     });
     setFilteredDoctors(filtered);  // Update the displayed doctors based on the filter
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="min-h-screen bg-background flex mt-20">
