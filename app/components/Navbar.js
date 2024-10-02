@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBlogger, FaSearch, FaCalendarAlt, FaQuestionCircle, FaInfoCircle } from "react-icons/fa";
-import { getCookie, removeCookies } from 'cookies-next';
+import { getCookie } from 'cookies-next';
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

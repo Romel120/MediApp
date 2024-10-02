@@ -13,7 +13,7 @@ const DoctorSignupForm = () => {
         dob: "",
         phone: "",
         medicalLicense: "",
-        specialization: "",
+        specialization: [],
         idType: "",
         gender: "",
         age: "",
@@ -21,9 +21,37 @@ const DoctorSignupForm = () => {
         confirmPassword: "",
     });
 
+    const specializationsOptions = [
+        "Cardiologist",
+        "Dermatologist",
+        "Neurologist",
+        "Pediatrician",
+        "General Surgeon",
+    ];
+
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+
     const handleDoctorSignupChange = (e) => {
         const { name, value } = e.target;
         setDoctorSignupData({ ...doctorSignupData, [name]: value });
+    };
+
+    // Add a specialization
+    const addSpecialization = (spec) => {
+        if (!doctorSignupData.specialization.includes(spec)) {
+            setDoctorSignupData({
+                ...doctorSignupData,
+                specialization: [...doctorSignupData.specialization, spec],
+            });
+        }
+    };
+
+    // Remove a specialization
+    const removeSpecialization = (spec) => {
+        setDoctorSignupData({
+            ...doctorSignupData,
+            specialization: doctorSignupData.specialization.filter((s) => s !== spec),
+        });
     };
 
     const handleDoctorSignupSubmit = async (e) => {
@@ -53,7 +81,7 @@ const DoctorSignupForm = () => {
                     dob: "",
                     phone: "",
                     medicalLicense: "",
-                    specialization: "",
+                    specialization: [],
                     idType: "",
                     gender: "",
                     age: "",
@@ -166,25 +194,33 @@ const DoctorSignupForm = () => {
                             />
                         </div>
 
-                        {/* Specialization */}
-                        <div>
-                            <label htmlFor="specialization" className="block text-text font-medium">Specialization</label>
-                            <select
-                                id="specialization"
-                                name="specialization"
-                                value={doctorSignupData.specialization}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                required
-                            >
-                                <option value="">Select Specialization</option>
-                                <option value="Cardiologist">Cardiologist</option>
-                                <option value="Dermatologist">Dermatologist</option>
-                                <option value="Neurologist">Neurologist</option>
-                                <option value="Pediatrician">Pediatrician</option>
-                                <option value="General Surgeon">General Surgeon</option>
-                            </select>
+                       {/* Specialization Button */}
+                    <div>
+                        <label className="block text-text font-medium mb-2">Specialization</label>
+                        <button
+                            type="button"
+                            onClick={() => setIsModalOpen(true)}
+                            className="px-4 py-2 bg-primary text-white rounded-md transition-colors duration-200 hover:bg-secondary"
+                        >
+                            Choose Specialization
+                        </button>
+
+                        {/* Display Selected Specializations */}
+                        <div className="flex flex-wrap items-center mt-4">
+                            {doctorSignupData.specialization.map((spec, index) => (
+                                <div key={index} className="flex items-center bg-gray-200 rounded-full px-4 py-2 m-1">
+                                    <span>{spec}</span>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeSpecialization(spec)}
+                                        className="ml-2 text-red-500 hover:text-red-700"
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+                            ))}
                         </div>
+                    </div>
 
                         {/* ID Type */}
                         <div>
@@ -283,7 +319,38 @@ const DoctorSignupForm = () => {
                     <Link href="/choice/doctorLogin" className="text-primary hover:underline">Login here</Link>
                 </p>
             </div>
+            {/* Specialization Modal */}
+            {isModalOpen && (
+                <div className="inset-0 bg-gray-800 bg-opacity-50 flex ml-4">
+                    <div className="w-64 bg-white shadow-lg p-6">
+                        <h2 className="text-xl font-bold mb-4">Select Specialization</h2>
+                        <div className="space-y-4">
+                            {specializationsOptions.map((option) => (
+                                <button
+                                    key={option}
+                                    type="button"
+                                    onClick={() => addSpecialization(option)}
+                                    className={`w-full px-4 py-2 rounded-lg text-white ${
+                                        doctorSignupData.specialization.includes(option)
+                                            ? "bg-gray-400"
+                                            : "bg-primary hover:bg-secondary"
+                                    }`}
+                                >
+                                    {option}
+                                </button>
+                            ))}
+                        </div>
+                        <button
+                            onClick={() => setIsModalOpen(false)}
+                            className="mt-6 w-full px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
+        
     );
 };
 
