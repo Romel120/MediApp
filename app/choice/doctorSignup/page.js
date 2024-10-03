@@ -26,7 +26,13 @@ const DoctorSignupForm = () => {
         "Dermatologist",
         "Neurologist",
         "Pediatrician",
-        "General Surgeon",
+        "General Surgeon", "Orthopedics", "Allergy & Immunology", "Nephrology", "General Practitioner",
+        "Pediatric Surgery", "Psychiatry", "Anesthesiology", "Physical Medicine",
+        "Gastroenterology", "Diabetology & Endocrinology", "Rheumatology", "Physiotherapy",
+        "Dentistry", "Hepatology", "Medicine", "Ophthalmology (Eye)", "Oncology",
+        "Neuro Medicine", "Food & Nutrition", "ENT", "Pediatrics", "Skin & VD",
+        "Burn & Plastic Surgery", "Hematology", "Neuro Surgery", "Chest Disease",
+        "Gynae & Obs", "Surgery", "Breast Diseases", "Cardiology", "Urology"
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
@@ -194,34 +200,33 @@ const DoctorSignupForm = () => {
                             />
                         </div>
 
-                       {/* Specialization Button */}
-                    <div>
-                        <label className="block text-text font-medium mb-2">Specialization</label>
-                        <button
-                            type="button"
-                            onClick={() => setIsModalOpen(true)}
-                            className="px-4 py-2 bg-primary text-white rounded-md transition-colors duration-200 hover:bg-secondary"
-                        >
-                            Choose Specialization
-                        </button>
+                        {/* Specialization Button */}
+                        <div>
+                            <label className="block text-text font-medium mb-2">Specialization</label>
+                            <button
+                                type="button"
+                                onClick={() => setIsModalOpen(true)}
+                                className="px-4 py-2 bg-primary text-white rounded-md transition-colors duration-200 hover:bg-secondary"
+                            >
+                                Choose Specialization
+                            </button>
 
-                        {/* Display Selected Specializations */}
-                        <div className="flex flex-wrap items-center mt-4">
-                            {doctorSignupData.specialization.map((spec, index) => (
-                                <div key={index} className="flex items-center bg-gray-200 rounded-full px-4 py-2 m-1">
-                                    <span>{spec}</span>
-                                    <button
-                                        type="button"
-                                        onClick={() => removeSpecialization(spec)}
-                                        className="ml-2 text-red-500 hover:text-red-700"
-                                    >
-                                        &times;
-                                    </button>
-                                </div>
-                            ))}
+                            {/* Display Selected Specializations */}
+                            <div className="flex flex-wrap items-center mt-4">
+                                {doctorSignupData.specialization.map((spec, index) => (
+                                    <div key={index} className="flex items-center bg-gray-200 rounded-full px-4 py-2 m-1">
+                                        <span>{spec}</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => removeSpecialization(spec)}
+                                            className="ml-2 text-red-500 hover:text-red-700"
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-
                         {/* ID Type */}
                         <div>
                             <label htmlFor="idType" className="block text-text font-medium">ID Type</label>
@@ -321,36 +326,49 @@ const DoctorSignupForm = () => {
             </div>
             {/* Specialization Modal */}
             {isModalOpen && (
-                <div className="inset-0 bg-gray-800 bg-opacity-50 flex ml-4">
-                    <div className="w-64 bg-white shadow-lg p-6">
-                        <h2 className="text-xl font-bold mb-4">Select Specialization</h2>
-                        <div className="space-y-4">
-                            {specializationsOptions.map((option) => (
-                                <button
-                                    key={option}
-                                    type="button"
-                                    onClick={() => addSpecialization(option)}
-                                    className={`w-full px-4 py-2 rounded-lg text-white ${
-                                        doctorSignupData.specialization.includes(option)
-                                            ? "bg-gray-400"
-                                            : "bg-primary hover:bg-secondary"
-                                    }`}
-                                >
-                                    {option}
-                                </button>
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+                    <button
+                            onClick={() => setIsModalOpen(false)}
+                            className="mt-4 mr-2 px-4 py-2 bg-red-600 text-white rounded-md transition-colors duration-200 hover:bg-red-950"
+                        >
+                            ✗
+                        </button>
+                    <div className="bg-white p-6 rounded-lg max-w-lg w-full h-96 overflow-y-scroll">
+                    
+                        <h2 className="text-2xl font-bold mb-4">Select Specializations</h2>
+                        <div className="grid grid-cols-2 gap-4">
+                            {specializationsOptions.map((spec, index) => (
+                                <div key={index} className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id={`specialization-${index}`}
+                                        checked={doctorSignupData.specialization.includes(spec)}
+                                        onChange={() =>
+                                            doctorSignupData.specialization.includes(spec)
+                                                ? removeSpecialization(spec)
+                                                : addSpecialization(spec)
+                                        }
+                                    />
+                                    <label
+                                        htmlFor={`specialization-${index}`}
+                                        className="ml-2 text-text font-medium"
+                                    >
+                                        {spec}
+                                    </label>
+                                </div>
                             ))}
                         </div>
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            className="mt-6 w-full px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                            className="mt-4 px-4 py-2 bg-primary text-white rounded-md transition-colors duration-200 hover:bg-secondary"
                         >
-                            Close
+                            Done
                         </button>
                     </div>
                 </div>
             )}
         </div>
-        
+
     );
 };
 

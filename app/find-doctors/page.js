@@ -4,15 +4,14 @@ import { useState, useEffect } from "react";
 import DoctorCard from "@/app/components/DoctorCard";
 import DoctorFilterSidebar from "@/app/components/DoctorFilterSidebar";
 
- 
 export default function FindDoctors() {
-  const [doctors, setDoctors] = useState([]);           // All doctors from the API
-  const [filteredDoctors, setFilteredDoctors] = useState([]);  // Doctors after filtering
+  const [doctors, setDoctors] = useState([]); // All doctors from the API
+  const [filteredDoctors, setFilteredDoctors] = useState([]); // Doctors after filtering
   const [specializations, setSpecializations] = useState([]);
   const [locations, setLocations] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // To handle loading state
 
- const Loader = () => (
+  const Loader = () => (
     <div className="flex items-center justify-center min-h-screen">
       <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
       <style jsx>{`
@@ -20,7 +19,7 @@ export default function FindDoctors() {
           border-top-color: #3498db; /* Customize loader color */
           animation: spin 1s linear infinite;
         }
-  
+
         @keyframes spin {
           0% {
             transform: rotate(0deg);
@@ -33,18 +32,21 @@ export default function FindDoctors() {
     </div>
   );
 
-
   useEffect(() => {
     // Fetch doctors from the API
     const fetchDoctors = async () => {
       const response = await fetch("/api2/doctors/finddoctor"); // Fetch all doctors from your API
       const data = await response.json();
-      setDoctors(data.doctors);                   // Set all doctors
-      setFilteredDoctors(data.doctors);           // Initially show all doctors
+      setDoctors(data.doctors); // Set all doctors
+      setFilteredDoctors(data.doctors); // Initially show all doctors
 
       // Extract unique specializations and locations
-      const uniqueSpecializations = [...new Set(data.doctors.map(doc => doc.specialization))];
-      const uniqueLocations = [...new Set(data.doctors.map(doc => doc.location))];
+      const uniqueSpecializations = [
+        ...new Set(data.doctors.map((doc) => doc.specialization)),
+      ];
+      const uniqueLocations = [
+        ...new Set(data.doctors.map((doc) => doc.location)),
+      ];
       setSpecializations(uniqueSpecializations);
       setLocations(uniqueLocations);
       setIsLoading(false);
@@ -53,22 +55,25 @@ export default function FindDoctors() {
     fetchDoctors();
   }, []);
 
- // Handle filtering logic
-const handleFilterChange = ({ specialization, location }) => {
-  const filtered = doctors.filter(doc => {
-    const matchesSpecialization = !specialization || 
-      (Array.isArray(doc.specialization)
-        ? doc.specialization.includes(specialization)
-        : doc.specialization === specialization);
+  // Handle filtering logic
+  const handleFilterChange = ({ specialization, location, doctorName }) => {
+    const filtered = doctors.filter((doc) => {
+      const matchesSpecialization =
+        !specialization ||
+        (Array.isArray(doc.specialization)
+          ? doc.specialization.includes(specialization)
+          : doc.specialization === specialization);
 
-    const matchesLocation = !location || doc.location === location;
+      const matchesLocation = !location || doc.location === location;
 
-    return matchesSpecialization && matchesLocation;
-  });
+      const matchesDoctorName =
+        !doctorName || doc.fullName.toLowerCase().includes(doctorName.toLowerCase());
 
-  setFilteredDoctors(filtered);  // Update the displayed doctors based on the filter
-};
+      return matchesSpecialization && matchesLocation && matchesDoctorName;
+    });
 
+    setFilteredDoctors(filtered); // Update the displayed doctors based on the filter
+  };
 
   if (isLoading) {
     return <Loader />;

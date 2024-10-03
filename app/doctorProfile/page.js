@@ -1,6 +1,31 @@
 "use client"
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import DoctorProfileSidebar from "@/app/components/DoctorProfileSidebar";
+
+
+// Example Loader component (You can style this as per your design)
+const Loader = () => (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+      <style jsx>{`
+        .loader {
+          border-top-color: #3498db; /* Customize loader color */
+          animation: spin 1s linear infinite;
+        }
+  
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+
 
 const ProfilePage = () => {
     const [doctorData, setDoctorData] = useState(null);
@@ -11,6 +36,7 @@ const ProfilePage = () => {
     const [bio, setBio] = useState("");
     const [experience, setExperience] = useState("");
     const [consultation, setConsultation] = useState(""); 
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -21,6 +47,7 @@ const ProfilePage = () => {
                 setDoctorData(data);
                 setBio(data.bio || ""); 
                 setExperience(data.experience || ""); 
+                setIsLoading(false);
             } catch (err) {
                 setError(err.message);
             }
@@ -67,15 +94,21 @@ const ProfilePage = () => {
     };
 
     if (error) return <div className="mt-24">{error}</div>;
-    if (!doctorData) return <div className="mt-24">Loading...</div>;
+    if (!doctorData) return <div className="mt-24"><Loader/></div>;
 
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-28">
+        <div className="flex max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-28">
+            {/* Sidebar */}
+            <DoctorProfileSidebar />
+
+            {/* Main Content */}
+            <div className="flex-1 p-6">
             {/* Header Section */}
             <div className="flex items-center space-x-6 mb-8">
                 <Image 
-                    src=""
+                    src="/assets/docProfile.png"
+                    width={500}m height={500}
                     alt="Doctor's Avatar"
                     className="w-32 h-32 rounded-full object-cover"
                 />
@@ -206,6 +239,7 @@ const ProfilePage = () => {
                     </button>
                 </div>
             )}
+        </div>
         </div>
     );
 };

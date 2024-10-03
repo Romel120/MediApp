@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 
 export default function Mainsection() {
@@ -85,38 +84,88 @@ export default function Mainsection() {
               placeholder="Search for doctors"
               className="px-4 py-3 border border-gray-300 rounded-l-md w-full text-text focus:outline-none focus:border-primary"
             />
-            <button className="bg-primary text-text text-lg font-semibold px-6 rounded-r-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg">
-              Search
-            </button>
+            <Link href="/find-doctors">
+              <button className="bg-primary text-text text-lg font-semibold px-6 py-3 rounded-r-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg">
+                Search
+              </button>
+            </Link>
           </div>
         </div>
       </section>
 
 
-      <section className="relative flex flex-col items-center py-48 px-4 mb-4 bg-background shadow-md rounded-md mt-6 mx-4 overflow-hidden">
-        {/* Background Decorative Image */}
-        <Image
-          src="/assets/welcome.jpg"
-          alt="Health Background"
-          className="absolute inset-0 w-full h-full"width={500}
-          height={500}
-        />
+      {/* Background Decorative Image */}
+      <div className="bg-blue-50 py-10">
+        <h2 className="text-center text-2xl font-semibold text-gray-800">
+          Consult Best Doctors for <span className="text-blue-600">any health issues</span>
+        </h2>
+        <div className="flex justify-evenly gap-20 mt-8">
+          {/* Card 1 */}
+          <div className="flex flex-col items-center text-center">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <Image
+                src="/assets/general-health-icon.jpg" // Replace with your icon path
+                alt="General Health"
+                width={500}
+                height={500}
+                className="h-40 w-40"
+              />
+            </div>
+            <p className="mt-4 text-gray-700">Need advice on general health?</p>
+            <Link href="#" className="mt-2 text-blue-600 font-semibold hover:underline">
+              Consult Now!
+            </Link>
+          </div>
 
-        {/* Overlay Content */}
-        <div className="relative z-10 flex flex-col items-center">
-          <h2 className="text-4xl font-bold text-primary mb-4">Welcome to MediApp</h2>
-          <p className="text-lg text-text mb-8 max-w-2xl text-center">
-            Your go-to platform for finding the best doctors and managing your health appointments. Our mission is to provide you with easy access to quality healthcare services and support your journey towards better health.
-          </p>
+          {/* Card 2 */}
+          <div className="flex flex-col items-center text-center">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <Image
+                src="/assets/nutrition-icon.webp" // Replace with your icon path
+                alt="Nutrition Advice"
+                width={500}
+                height={500}
+                className="h-40 w-40"
+              />
+            </div>
+            <p className="mt-4 text-gray-700">Looking for nutrition advice?</p>
+            <Link href="#" className="mt-2 text-blue-600 font-semibold hover:underline">
+              Consult Now!
+            </Link>
+          </div>
 
-          <Link href="/find-doctors">
-            <button className="flex items-center gap-2 bg-primary text-text text-lg font-semibold px-6 py-3 rounded-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg">
-              {/* Icon for Button */}
-              <FaSearch className="h-5 w-5 mr-2" /> Find Doctor
-            </button>
-          </Link>
+          {/* Card 3 */}
+          <div className="flex flex-col items-center text-center">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <Image
+                src="/assets/fever-cough-icon.jpg"
+                alt="Fever, Cold or Cough" width={500} height={500}
+                className="h-40 w-40"
+              />
+            </div>
+            <p className="mt-4 text-gray-700">Seasonal fever, cold or cough problem?</p>
+            <Link href="#" className="mt-2 text-blue-600 font-semibold hover:underline">
+              Consult Now!
+            </Link>
+          </div>
+
+          {/* Card 4 */}
+          <div className="flex flex-col items-center text-center">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <Image
+                src="/assets/child-health-icon.jpg"
+                alt="Child Health Problem" width={500} height={500}
+                className="h-40 w-40"
+              />
+            </div>
+            <p className="mt-4 text-gray-700">Child health problem?</p>
+            <Link href="#" className="mt-2 text-blue-600 font-semibold hover:underline">
+              Consult Now!
+            </Link>
+          </div>
         </div>
-      </section>
+      </div>
+      {/* </section> */}
 
       <section className="relative flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat m-4 " style={{
         backgroundImage: `url(${slides[currentSlide].url})`,
@@ -144,7 +193,7 @@ export default function Mainsection() {
                 alt="Doctor Consultation"
                 className="w-screen"
                 width={500}
-      height={500}
+                height={500}
               />
             </div>
             <h3 className="text-xl font-semibold text-primary mb-4 text-center">Doctor Consultation</h3>
@@ -164,7 +213,7 @@ export default function Mainsection() {
               <Image
                 src="/assets/booking.jpg" // Replace with your icon path
                 alt="Appointment Booking"
-                className="w-3/4"width={500}
+                className="w-3/4" width={500}
                 height={500}
               />
             </div>
@@ -185,7 +234,7 @@ export default function Mainsection() {
               <Image
                 src="/assets/resource.jpg" // Replace with your icon path
                 alt="Health Resources"
-                className="w-screen"width={500}
+                className="w-screen" width={500}
                 height={500}
               />
             </div>

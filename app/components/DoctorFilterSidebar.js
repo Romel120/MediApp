@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 
 const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => {
-  const [selectedSpecialization, setSelectedSpecialization] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedSpecialization, setSelectedSpecialization] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
+  const [doctorName, setDoctorName] = useState(""); // State for doctor name search
   const [uniqueSpecializations, setUniqueSpecializations] = useState([]);
 
   useEffect(() => {
@@ -13,12 +14,28 @@ const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => 
   }, [specializations]);
 
   const handleFilter = () => {
-    onFilterChange({ specialization: selectedSpecialization, location: selectedLocation });
+    onFilterChange({
+      specialization: selectedSpecialization,
+      location: selectedLocation,
+      doctorName, // Pass the doctor name to the filter handler
+    });
   };
 
   return (
     <div className="w-full md:w-64 bg-white p-6 shadow-md">
       <h2 className="text-2xl font-bold text-primary mb-4">Filters</h2>
+
+      {/* Search by Doctor Name */}
+      <div className="mb-6">
+        <label className="block text-text font-medium">Search Doctor</label>
+        <input
+          type="text"
+          value={doctorName}
+          onChange={(e) => setDoctorName(e.target.value)}
+          placeholder="Enter doctor's name"
+          className="w-full border-gray-300 border-2 p-2 mt-1 rounded-md"
+        />
+      </div>
 
       {/* Specialization Filter */}
       <div className="mb-6">
@@ -30,7 +47,9 @@ const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => 
         >
           <option value="">All Specializations</option>
           {uniqueSpecializations.map((spec) => (
-            <option key={spec} value={spec}>{spec}</option>
+            <option key={spec} value={spec}>
+              {spec}
+            </option>
           ))}
         </select>
       </div>
@@ -45,7 +64,9 @@ const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => 
         >
           <option value="">All Locations</option>
           {locations.map((location) => (
-            <option key={location} value={location}>{location}</option>
+            <option key={location} value={location}>
+              {location}
+            </option>
           ))}
         </select>
       </div>
