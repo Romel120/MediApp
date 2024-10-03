@@ -53,16 +53,22 @@ export default function FindDoctors() {
     fetchDoctors();
   }, []);
 
-  // Handle filtering logic
-  const handleFilterChange = ({ specialization, location }) => {
-    const filtered = doctors.filter(doc => {
-      return (
-        (!specialization || doc.specialization === specialization) &&
-        (!location || doc.location === location)
-      );
-    });
-    setFilteredDoctors(filtered);  // Update the displayed doctors based on the filter
-  };
+ // Handle filtering logic
+const handleFilterChange = ({ specialization, location }) => {
+  const filtered = doctors.filter(doc => {
+    const matchesSpecialization = !specialization || 
+      (Array.isArray(doc.specialization)
+        ? doc.specialization.includes(specialization)
+        : doc.specialization === specialization);
+
+    const matchesLocation = !location || doc.location === location;
+
+    return matchesSpecialization && matchesLocation;
+  });
+
+  setFilteredDoctors(filtered);  // Update the displayed doctors based on the filter
+};
+
 
   if (isLoading) {
     return <Loader />;

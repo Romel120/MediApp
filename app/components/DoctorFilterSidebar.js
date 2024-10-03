@@ -1,8 +1,16 @@
-import { useState } from "react";
+"use client"
+import { useState, useEffect } from "react";
 
 const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => {
   const [selectedSpecialization, setSelectedSpecialization] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [uniqueSpecializations, setUniqueSpecializations] = useState([]);
+
+  useEffect(() => {
+    // Ensure we show only unique specializations
+    const uniqueSpecs = [...new Set(specializations.flat())];
+    setUniqueSpecializations(uniqueSpecs);
+  }, [specializations]);
 
   const handleFilter = () => {
     onFilterChange({ specialization: selectedSpecialization, location: selectedLocation });
@@ -21,7 +29,7 @@ const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => 
           className="w-full border-gray-300 p-2 mt-1 rounded-md"
         >
           <option value="">All Specializations</option>
-          {specializations.map((spec) => (
+          {uniqueSpecializations.map((spec) => (
             <option key={spec} value={spec}>{spec}</option>
           ))}
         </select>

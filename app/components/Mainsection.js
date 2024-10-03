@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
+import Image from "next/image";
 
 export default function Mainsection() {
   const [isSpecialtyOpen, setSpecialtyOpen] = useState(false);
@@ -94,10 +95,11 @@ export default function Mainsection() {
 
       <section className="relative flex flex-col items-center py-48 px-4 mb-4 bg-background shadow-md rounded-md mt-6 mx-4 overflow-hidden">
         {/* Background Decorative Image */}
-        <img
+        <Image
           src="/assets/welcome.jpg"
           alt="Health Background"
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full"width={500}
+          height={500}
         />
 
         {/* Overlay Content */}
@@ -137,10 +139,12 @@ export default function Mainsection() {
           {/* Doctor Consultation */}
           <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <div className="flex items-center justify-center mb-4">
-              <img
+              <Image
                 src="/assets/medcall.jpg" // Replace with your icon path
                 alt="Doctor Consultation"
                 className="w-screen"
+                width={500}
+      height={500}
               />
             </div>
             <h3 className="text-xl font-semibold text-primary mb-4 text-center">Doctor Consultation</h3>
@@ -157,10 +161,11 @@ export default function Mainsection() {
           {/* Appointment Booking */}
           <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <div className="flex items-center justify-center mb-4">
-              <img
+              <Image
                 src="/assets/booking.jpg" // Replace with your icon path
                 alt="Appointment Booking"
-                className="w-3/4"
+                className="w-3/4"width={500}
+                height={500}
               />
             </div>
             <h3 className="text-xl font-semibold text-primary mb-4 text-center">Appointment Booking</h3>
@@ -177,10 +182,11 @@ export default function Mainsection() {
           {/* Health Resources */}
           <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <div className="flex items-center justify-center mb-4">
-              <img
+              <Image
                 src="/assets/resource.jpg" // Replace with your icon path
                 alt="Health Resources"
-                className="w-screen"
+                className="w-screen"width={500}
+                height={500}
               />
             </div>
             <h3 className="text-xl font-semibold text-primary mb-4 text-center">Health Resources</h3>
@@ -200,11 +206,11 @@ export default function Mainsection() {
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col space-y-8">
             <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
-              <p className="text-lg text-text mb-4">"MediApp has made finding the right doctor so easy. The appointment booking system is seamless, and I love the reminders!"</p>
+              <p className="text-lg text-text mb-4">&quot;MediApp has made finding the right doctor so easy. The appointment booking system is seamless, and I love the reminders!&quot;</p>
               <cite className="text-primary font-semibold">- Jane Doe</cite>
             </blockquote>
             <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
-              <p className="text-lg text-text mb-4">"I appreciate the range of specialties available and the user-friendly interface. Highly recommend for managing your health."</p>
+              <p className="text-lg text-text mb-4">&quot;I appreciate the range of specialties available and the user-friendly interface. Highly recommend for managing your health.&quot;</p>
               <cite className="text-primary font-semibold">- John Smith</cite>
             </blockquote>
           </div>
