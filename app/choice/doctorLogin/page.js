@@ -44,7 +44,7 @@ const DoctorLoginForm = () => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-blue-100">
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:shadow-xl">
         <h1 className="text-3xl font-bold text-primary mb-6">Welcome back</h1>
         <p className="text-gray-600 mb-4">Log in as a Doctor below.</p>

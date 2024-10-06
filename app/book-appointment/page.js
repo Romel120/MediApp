@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -24,8 +24,8 @@ export default function AppointmentBooking() {
     const fetchDoctors = async () => {
       try {
         const response = await fetch("/api2/doctors/finddoctor"); // Fetch all doctors from your API
-      const data = await response.json();
-      setDoctors(data.doctors);        // Set the fetched doctors to the state
+        const data = await response.json();
+        setDoctors(data.doctors);  // Set the fetched doctors to the state
       } catch (error) {
         console.error('Error fetching doctors:', error);
       }
@@ -33,7 +33,6 @@ export default function AppointmentBooking() {
 
     fetchDoctors();  // Trigger the API call
   }, []);
-
 
   const handleChange = (e) => {
     setFormData({
@@ -55,11 +54,12 @@ export default function AppointmentBooking() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-6 mt-10">
-      <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg">
-        <h2 className="text-3xl font-bold text-center mb-8 text-primary">Book an Appointment</h2>
+    <div className="flex flex-row items-center justify-evenly min-h-screen bg-white">
+      {/* Left side form */}
+      <div className="w-2/6 p-8 bg-white shadow-2xl rounded-lg ml-16">
+        <h2 className="text-3xl font-bold mb-8 text-primary">Book an Appointment</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Doctor Selection */}
           <div>
             <label htmlFor="doctor" className="block text-sm font-medium text-gray-700">Select Doctor</label>
@@ -71,7 +71,6 @@ export default function AppointmentBooking() {
               className="w-full mt-2 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
             >
               <option value="" disabled>Select a doctor</option>
-              {/* Map over the fetched doctors and display their names */}
               {doctors.map((doctor) => (
                 <option key={doctor._id} value={doctor.fullName}>
                   {doctor.fullName}
@@ -80,39 +79,38 @@ export default function AppointmentBooking() {
             </select>
           </div>
 
-
           {/* Appointment Type */}
           <div>
             <h3 className="text-lg font-medium text-gray-700 mb-2">Appointment Type</h3>
             <div className='flex'>
-            <div className="flex items-center mb-2">
-              <input
-                id="doctorsChamber"
-                name="appointmentType"
-                type="radio"
-                value="Doctor's Chamber"
-                checked={formData.appointmentType === "Doctor's Chamber"}
-                onChange={handleChange}
-                className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
-              />
-              <label htmlFor="doctorsChamber" className="ml-3 block text-sm font-medium text-gray-700">
-                Doctor&apos;s Chamber
-              </label>
-            </div>
-            <div className="flex items-center mb-2 ml-4">
-              <input
-                id="onlineMeeting"
-                name="appointmentType"
-                type="radio"
-                value="Online Meeting"
-                checked={formData.appointmentType === "Online Meeting"}
-                onChange={handleChange}
-                className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
-              />
-              <label htmlFor="onlineMeeting" className="ml-3 block text-sm font-medium text-gray-700">
-                Online Meeting
-              </label>
-            </div>
+              <div className="flex items-center mb-2">
+                <input
+                  id="doctorsChamber"
+                  name="appointmentType"
+                  type="radio"
+                  value="Doctor's Chamber"
+                  checked={formData.appointmentType === "Doctor's Chamber"}
+                  onChange={handleChange}
+                  className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                />
+                <label htmlFor="doctorsChamber" className="ml-3 block text-sm font-medium text-gray-700">
+                  Doctor&apos;s Chamber
+                </label>
+              </div>
+              <div className="flex items-center mb-2 ml-4">
+                <input
+                  id="onlineMeeting"
+                  name="appointmentType"
+                  type="radio"
+                  value="Online Meeting"
+                  checked={formData.appointmentType === "Online Meeting"}
+                  onChange={handleChange}
+                  className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
+                />
+                <label htmlFor="onlineMeeting" className="ml-3 block text-sm font-medium text-gray-700">
+                  Online Meeting
+                </label>
+              </div>
             </div>
           </div>
 
@@ -121,62 +119,28 @@ export default function AppointmentBooking() {
             {/* Appointment Date */}
             <div>
               <label htmlFor="date" className="block text-sm font-medium text-gray-700">Appointment Date</label>
-              <div className="relative mt-2">
-                <DatePicker
-                  selected={formData.date}
-                  onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
-                  locale="en-GB"
-                  minDate={new Date()}
-                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-                  placeholderText="Select a date"
-                  showPopperArrow={false}
-                  calendarClassName="bg-white border-2 border-gray-300 shadow-lg rounded-md"
-                />
-                {/* Date Icon */}
-                <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                  <svg
-                    className="w-6 h-6 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-6 8h6M5 3h14a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"
-                    />
-                  </svg>
-                </div>
-              </div>
+              <DatePicker
+                selected={formData.date}
+                onChange={handleDateChange}
+                dateFormat="dd/MM/yyyy"
+                locale="en-GB"
+                minDate={new Date()}
+                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+                placeholderText="Select a date"
+              />
             </div>
 
             {/* Appointment Time */}
             <div>
               <label htmlFor="time" className="block text-sm font-medium text-gray-700">Appointment Time</label>
-              <div className="relative mt-2">
-                <input
-                  type="time"
-                  name="time"
-                  value={formData.time}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-                />
-                {/* Time Icon */}
-                <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                  <svg
-                    className="w-6 h-6 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                  </svg>
-                </div>
-              </div>
+              <input
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+              />
             </div>
           </div>
 
@@ -203,6 +167,19 @@ export default function AppointmentBooking() {
             </button>
           </div>
         </form>
+      </div>
+
+      {/* Right side video */}
+      <div className=" w-1/2 h-screen relative ml-0 mt-20">
+        <video
+          autoPlay
+          loop
+          muted
+          className="absolute inset-0 w-full h-3/4  object-cover"
+        >
+          <source src="/assets/booking.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   );
