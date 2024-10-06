@@ -20,15 +20,15 @@ export default function Mainsection() {
 
   const slides = [
     {
-      url: "/assets/_1.png", // Put your image URL here
+      url: "/assets/2.jpg", // Put your image URL here
       text: "Find the best doctors for your medical needs."
     },
     {
-      url: "/assets/_2.png", // Put your image URL here
+      url: "/assets/3.jpg", // Put your image URL here
       text: "Book appointments quickly and easily."
     },
     {
-      url: "/assets/_4.png", // Put your image URL here
+      url: "/assets/4.jpg", // Put your image URL here
       text: "Get access to a wide range of healthcare specialists."
     }
   ];
@@ -45,7 +45,7 @@ export default function Mainsection() {
       <section
         className="flex justify-center items-center h-screen pt-16 bg-cover bg-center bg-no-repeat mb-2"
         style={{
-          backgroundImage: `url('/assets/msbg1.jpg')`,
+          backgroundImage: `url('/assets/msbg4.jpg')`,
           backgroundSize: '100%',
           opacity: 0.8,
         }}
@@ -94,7 +94,6 @@ export default function Mainsection() {
       </section>
 
 
-      {/* Background Decorative Image */}
       <div className="bg-blue-50 py-10">
         <h2 className="text-center text-2xl font-semibold text-gray-800">
           Consult Best Doctors for <span className="text-blue-600">any health issues</span>
@@ -165,11 +164,10 @@ export default function Mainsection() {
           </div>
         </div>
       </div>
-      {/* </section> */}
 
-      <section className="relative flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat m-4 " style={{
+      <section className="relative flex justify-center items-center h-screen  bg-center bg-no-repeat mx-28 my-4" style={{
         backgroundImage: `url(${slides[currentSlide].url})`,
-        backgroundSize: '50%', opacity: 0.9,
+        backgroundSize: '65%', opacity: 0.9,
       }}>
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30"></div> {/* Overlay */}
         <div className="relative z-10 flex flex-col items-center text-center">
@@ -182,16 +180,16 @@ export default function Mainsection() {
         </div>
       </section>
 
-      <section className="py-12 px-4 bg-background">
+      <section className="py-12 px-4 bg-blue-50">
         <h2 className="text-3xl font-bold text-primary mb-12 text-center">Our Services</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {/* Doctor Consultation */}
           <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <div className="flex items-center justify-center mb-4">
               <Image
-                src="/assets/medcall.jpg" // Replace with your icon path
+                src="/assets/doctorConsult.jpg" // Replace with your icon path
                 alt="Doctor Consultation"
-                className="w-screen"
+                className="w-full"
                 width={500}
                 height={500}
               />
@@ -211,9 +209,9 @@ export default function Mainsection() {
           <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <div className="flex items-center justify-center mb-4">
               <Image
-                src="/assets/booking.jpg" // Replace with your icon path
+                src="/assets/appointment.jpg" // Replace with your icon path
                 alt="Appointment Booking"
-                className="w-3/4" width={500}
+                className="w-full" width={500}
                 height={500}
               />
             </div>
@@ -232,9 +230,9 @@ export default function Mainsection() {
           <div className="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
             <div className="flex items-center justify-center mb-4">
               <Image
-                src="/assets/resource.jpg" // Replace with your icon path
+                src="/assets/healthResource.jpg" // Replace with your icon path
                 alt="Health Resources"
-                className="w-screen" width={500}
+                className="w-3/4" width={500}
                 height={500}
               />
             </div>
