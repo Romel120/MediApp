@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const DoctorCard = ({ doctor }) => {
   return (
@@ -44,9 +45,11 @@ const DoctorCard = ({ doctor }) => {
 
         {/* View Profile Button */}
         <div className="text-center">
+        <Link href={`/doctors/${doctor._id}`} passHref>
           <button className="w-full px-4 py-2 bg-secondary text-white font-semibold rounded-md hover:bg-secondary-dark shadow-md transition duration-300">
             View Profile
           </button>
+          </Link>
         </div>
       </div>
     </div>

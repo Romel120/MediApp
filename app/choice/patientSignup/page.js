@@ -67,7 +67,7 @@ const PatientSignupForm = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:shadow-xl mt-24">
+            <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg transition-transform duration-300 hover:shadow-xl mb-10 mt-24">
                 <h1 className="text-3xl font-bold text-primary mb-6">Sign up</h1>
                 <p className="text-gray-600 mb-4">Enter your details to create your account.</p>
                 <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
