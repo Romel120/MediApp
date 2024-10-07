@@ -45,11 +45,19 @@ export default function Navbar() {
               <FaSearch className="h-5 w-5 mr-2" /> Find Doctor
             </button>
           </Link>
-          <Link href="/book-appointment">
-            <button className="text-text font-medium flex items-center hover:text-primary transition-colors duration-300">
-              <FaCalendarAlt className="h-5 w-5 mr-2" /> Book Appointment
-            </button>
-          </Link>
+          {userType === "doctor" ? (
+            <Link href="/my-appointments">
+              <button className="text-text font-medium flex items-center hover:text-primary transition-colors duration-300">
+                <FaCalendarAlt className="h-5 w-5 mr-2" /> My Appointments
+              </button>
+            </Link>
+          ) : (
+            <Link href="/book-appointment">
+              <button className="text-text font-medium flex items-center hover:text-primary transition-colors duration-300">
+                <FaCalendarAlt className="h-5 w-5 mr-2" /> Book Appointment
+              </button>
+            </Link>
+          )}
           <Link href="/blog">
             <button className="text-text font-medium flex items-center hover:text-primary transition-colors duration-300">
               <FaBlogger className="h-5 w-5 mr-2" /> Blogs
