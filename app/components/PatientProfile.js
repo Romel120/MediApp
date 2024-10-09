@@ -37,7 +37,7 @@ const PatientProfile = () => {
                     <Image
                         src={userData.gender === 'male'
                             ? "/assets/userProfile.jpg"
-                            : "/assets/userProfile.jpg" }
+                            : "/assets/userProfileGirl.jpg" }
                         alt="Profile"
                         className="w-24 h-24 rounded-full"
                         width={100}
