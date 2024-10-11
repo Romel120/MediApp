@@ -22,17 +22,11 @@ const DoctorSignupForm = () => {
     });
 
     const specializationsOptions = [
-        "Cardiologist",
-        "Dermatologist",
-        "Neurologist",
-        "Pediatrician",
-        "General Surgeon", "Orthopedics", "Allergy & Immunology", "Nephrology", "General Practitioner",
-        "Pediatric Surgery", "Psychiatry", "Anesthesiology", "Physical Medicine",
-        "Gastroenterology", "Diabetology & Endocrinology", "Rheumatology", "Physiotherapy",
-        "Dentistry", "Hepatology", "Medicine", "Ophthalmology (Eye)", "Oncology",
-        "Neuro Medicine", "Food & Nutrition", "ENT", "Pediatrics", "Skin & VD",
-        "Burn & Plastic Surgery", "Hematology", "Neuro Surgery", "Chest Disease",
-        "Gynae & Obs", "Surgery", "Breast Diseases", "Cardiology", "Urology"
+        "Cardiologist","Dermatologist","Neurologist","Pediatrician","General Surgeon", "Orthopedics", "Allergy & Immunology", "Nephrology", 
+        "General Practitioner","Pediatric Surgery", "Psychiatry", "Anesthesiology", "Physical Medicine","Gastroenterology", 
+        "Diabetology & Endocrinology", "Rheumatology", "Physiotherapy","Dentistry", "Hepatology", "Medicine", "Ophthalmology (Eye)", 
+        "Oncology","Neuro Medicine", "Food & Nutrition", "ENT", "Pediatrics", "Skin & VD","Burn & Plastic Surgery", "Hematology", 
+        "Neuro Surgery", "Chest Disease", "Gynae & Obs", "Surgery", "Breast Diseases", "Cardiology", "Urology"
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state

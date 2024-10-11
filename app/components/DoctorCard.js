@@ -39,7 +39,7 @@ const DoctorCard = ({ doctor }) => {
         <div className="mb-4">
           <p className="text-gray-700">
             <span className="font-semibold">Experience: </span>
-            {doctor.experience || "N/A"} years
+            {doctor.experience || "N/A"}
           </p>
         </div>
 

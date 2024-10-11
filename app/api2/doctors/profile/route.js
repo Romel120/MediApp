@@ -1,14 +1,13 @@
 import { NextResponse } from 'next/server';
 import Doctor from '@/lib/models/doctor';
 import { getDataFromToken } from '@/helpers/getDataFromToken';
-import dbConnect from '@/lib/db'; // Adjust this import according to your db connection file
-
+import dbConnect from '@/lib/db';
 
 export const GET = async (request) => {
-    await dbConnect(); // Ensure the database connection is established
+    await dbConnect();
     try {
         const doctorId = getDataFromToken(request);
-        const doctor = await Doctor.findById(doctorId).select('-password'); // Exclude password
+        const doctor = await Doctor.findById(doctorId).select('-password');
 
         if (!doctor) {
             return NextResponse.json({ message: 'Doctor not found' }, { status: 404 });
@@ -20,38 +19,41 @@ export const GET = async (request) => {
     }
 };
 
-// PUT method to update doctor's profile
 export const PUT = async (request) => {
     await dbConnect();
 
     try {
-        const { bio, experience, consultation } = await request.json();
+        const {
+            bio, experience, consultation, consultationStart, consultationEnd,
+            drTitle, BMDCNumber, expYear, onlineFees, followupFees, clinicFees,
+            onlineHealthxFees, onlineVat, onlineTotalFees, followupHealthxFees,
+            followupVat, followupTotalFees, isVerify, isShownPartner, onlineFee,followupFee, chamberFee
+        } = await request.json();
 
-        // Get the doctor ID from the token
-        const doctorId = getDataFromToken(request); // Use updated function
-        console.log("Doctor ID:", doctorId);
+        const doctorId = getDataFromToken(request);
 
         if (!doctorId) {
-            console.log("No doctor ID found");
             return NextResponse.json({ error: "Invalid token" }, { status: 400 });
         }
 
-        // Update the doctor's profile
         const updatedDoctor = await Doctor.findByIdAndUpdate(
             doctorId,
-            { bio, experience, consultation },
-            { new: true } // Return the updated document
+            {
+                bio, experience, consultation, consultationStart, consultationEnd,
+                drTitle, BMDCNumber, expYear, onlineFees, followupFees, clinicFees,
+                onlineHealthxFees, onlineVat, onlineTotalFees, followupHealthxFees,
+                followupVat, followupTotalFees, isVerify, isShownPartner,onlineFee,followupFee, chamberFee,
+            },
+            { new: true }
         );
 
         if (!updatedDoctor) {
-            console.log("Doctor not found with ID:", doctorId);
             return NextResponse.json({ error: "Doctor not found" }, { status: 404 });
         }
 
         return NextResponse.json(updatedDoctor, { status: 200 });
 
     } catch (error) {
-        console.error("PUT error:", error.message);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 };

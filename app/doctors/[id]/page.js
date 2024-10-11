@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 
 export default function DoctorPublicProfile() {
-    const { id } = useParams(); // Get the doctor ID directly from the URL
+    const { id } = useParams();
     const [doctor, setDoctor] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -13,14 +13,11 @@ export default function DoctorPublicProfile() {
         if (id) {
             const fetchDoctorProfile = async () => {
                 try {
-                    console.log("Fetching doctor profile for ID:", id);
                     const response = await fetch(`/api2/doctors/view?id=${id}`);
                     const data = await response.json();
-                    console.log("API response:", data);
 
                     if (response.ok) {
                         setDoctor(data);
-                        console.log("Doctor data set:", data); // Add this line
                     } else {
                         console.error("Failed to fetch doctor profile");
                     }
@@ -34,9 +31,6 @@ export default function DoctorPublicProfile() {
             fetchDoctorProfile();
         }
     }, [id]);
-
-    console.log("doctor: ", doctor);
-
 
     if (isLoading) {
         return (
@@ -55,44 +49,68 @@ export default function DoctorPublicProfile() {
     }
 
     return (
-        <div className="min-h-screen bg-blue-100 flex flex-col items-center p-6">
-            <div className="w-full max-w-2xl bg-white shadow-md rounded-lg overflow-hidden mt-24">
-                <div className="flex items-center p-6 border-b">
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
+            <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden mt-24">
+                <div className="flex items-center p-6 bg-blue-500 text-white">
                     <Image
-                        src="/assets/docProfile.png" // Add a placeholder image path
-                        alt={`${doctor.doctor.fullName}'s Avatar`}
+                        src="/assets/docProfile.png" // Placeholder image path
+                        alt={`${doctor.fullName}'s Avatar`}
                         width={100}
                         height={100}
-                        className="w-24 h-24 rounded-full object-cover border-2 border-gray-300"
+                        className="w-24 h-24 rounded-full object-cover border-2 border-white"
                     />
                     <div className="ml-4">
-                        <h2 className="text-3xl font-bold text-gray-800">{doctor.doctor.username}</h2>
-                        <p className="text-md text-gray-600">
-                            {doctor.doctor.specialization && doctor.doctor.specialization.length > 0
-                                ? `Specializations: ${doctor.doctor.specialization.join(', ')}`
+                        <h2 className="text-3xl font-bold">{doctor.username}</h2>
+                        <p className="text-lg">
+                            {doctor.specialization && doctor.specialization.length > 0
+                                ? `Specializations: ${doctor.specialization.join(', ')}`
                                 : 'Specialization not available'}
                         </p>
-                        <p className="text-md text-gray-600">
-                            {doctor.doctor.location || 'Location not specified'}
+                        <p className="text-md">
+                            {doctor.location || 'Location not specified'}
                         </p>
                     </div>
                 </div>
 
-                <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">Details</h3>
+                <div className="p-6 space-y-6">
+                    <div>
+                        <h3 className="text-2xl font-semibold text-gray-800 mb-4">Details</h3>
+                        <p className="text-md text-gray-700">
+                            <strong>Experience:</strong> {doctor.experience || 'Experience not available'}
+                        </p>
+                        <p className="text-md text-gray-700">
+                            <strong>Bio:</strong> {doctor.bio || 'No bio available'}
+                        </p>
+                        <p className="text-md text-gray-700">
+                            <strong>Consultation Hours:</strong> {doctor.consultationStart && doctor.consultationEnd
+                                ? `From ${doctor.consultationStart} to ${doctor.consultationEnd}`
+                                : 'Consultation hours not available'}
+                        </p>
+                    </div>
 
-                    {/* Experience might be missing, so handle this case */}
-                    <p className="text-md text-gray-700">
-                        <strong>Experience:</strong> {doctor.doctor.experience || 'Experience not available'} years
-                    </p>
+                    <div className="flex justify-between">
+                        <div>
+                            <p className="text-md text-gray-700"><strong>Online Fee:</strong> ৳ {doctor.onlineFee || '--'}</p>
+                        </div>
+                        <div>
+                            <p className="text-md text-gray-700"><strong>Chamber Fee:</strong> ৳ {doctor.chamberFee || '--'}</p>
+                        </div>
+                        <div>
+                            <p className="text-md text-gray-700"><strong>Follow up Fee:</strong> ৳ {doctor.followupFee || '--'}</p>
+                        </div>
+                    </div>
 
-                    {/* Handle bio being undefined */}
-                    <p className="text-md text-gray-700">
-                        <strong>Bio:</strong> {doctor.doctor.bio || 'No bio available'}
-                    </p>
+                    <div>
+                        <p className="text-md text-gray-700">
+                            <strong>BMDC Number:</strong> {doctor.BMDCNumber || '--'}
+                        </p>
+                        <p className="text-md text-gray-700">
+                            <strong>Experience:</strong> {doctor.experience || '--'}
+                        </p>
+                    </div>
                 </div>
 
-                <div className="flex justify-between p-6 border-t">
+                <div className="flex justify-between p-6 bg-gray-100 border-t">
                     <button className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
                         Book Appointment
                     </button>

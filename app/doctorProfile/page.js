@@ -26,73 +26,107 @@ const Loader = () => (
     </div>
   );
 
+  // Time Picker Component
+const TimePicker = ({ label, time, setTime }) => (
+    <div className="flex flex-col">
+      <label className="text-gray-800">{label}</label>
+      <input
+        type="time"
+        value={time}
+        onChange={(e) => setTime(e.target.value)}
+        className="border border-gray-300 rounded-md p-2 mt-1"
+      />
+    </div>
+  );
 
-const ProfilePage = () => {
+
+  const ProfilePage = () => {
     const [doctorData, setDoctorData] = useState(null);
     const [error, setError] = useState(null);
-
+  
     // States for editable fields
     const [isEditing, setIsEditing] = useState(false);
     const [bio, setBio] = useState("");
     const [experience, setExperience] = useState("");
-    const [consultation, setConsultation] = useState(""); 
+    const [BMDCNumber, setBMDCNumber] = useState("");
+    const [onlineFee, setOnlineFee] = useState("");
+    const [followupFee, setFollowupFee] = useState("");
+    const [chamberFee, setChamberFee] = useState("");
+    const [consultationStart, setConsultationStart] = useState("");
+    const [consultationEnd, setConsultationEnd] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-
+  
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await fetch("/api2/doctors/profile"); // Adjust based on the user type
-                if (!response.ok) throw new Error('Failed to fetch profile data');
-                const data = await response.json();
-                setDoctorData(data);
-                setBio(data.bio || ""); 
-                setExperience(data.experience || ""); 
-                setIsLoading(false);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-
-        fetchProfile();
-    }, []);
-
-    const handleSave = async () => {
-        const updatedProfile = {
-            bio,
-            experience,
-            consultation,
-        };
-    
+      const fetchProfile = async () => {
         try {
-            const response = await fetch('/api2/doctors/profile', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedProfile),
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to update profile');
-            }
-    
-            const data = await response.json();
-            console.log("Profile updated successfully:", data);
-    
-            // Optionally, update doctorData with the new values
-            setDoctorData(prevState => ({
-                ...prevState,
-                bio,
-                experience,
-                consultation,
-            }));
-    
-            setIsEditing(false);  // Turn off editing mode after successful save
-        } catch (error) {
-            console.error("Error updating profile:", error.message);
+          const response = await fetch("/api2/doctors/profile"); 
+          if (!response.ok) throw new Error("Failed to fetch profile data");
+          const data = await response.json();
+          setDoctorData(data);
+          setBio(data.bio || "");
+          setExperience(data.experience || "");
+          setBMDCNumber(data.BMDCNumber || "");
+          setOnlineFee(data.onlineFee || "");
+          setFollowupFee(data.followupFee || "");
+          setChamberFee(data.chamberFee || "");
+          setConsultationStart(data.consultationStart || "");
+          setConsultationEnd(data.consultationEnd || "");
+          setIsLoading(false);
+        } catch (err) {
+          setError(err.message);
         }
+      };
+  
+      fetchProfile();
+    }, []);
+  
+    const handleSave = async () => {
+      const updatedProfile = {
+        bio,
+        experience,
+        BMDCNumber,
+        onlineFee,
+        followupFee,
+        chamberFee,
+        consultationStart,
+        consultationEnd,
+      };
+  
+      try {
+        const response = await fetch("/api2/doctors/profile", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedProfile),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to update profile");
+        }
+  
+        const data = await response.json();
+        console.log("Profile updated successfully:", data);
+  
+        // Optionally, update doctorData with the new values
+        setDoctorData((prevState) => ({
+          ...prevState,
+          bio,
+          experience,
+          BMDCNumber,
+          onlineFee,
+          followupFee,
+          chamberFee,
+          consultationStart,
+          consultationEnd,
+        }));
+  
+        setIsEditing(false);
+      } catch (error) {
+        console.error("Error updating profile:", error.message);
+      }
     };
-
+  
     if (error) return <div className="mt-24">{error}</div>;
     if (!doctorData) return <div className="mt-24"><Loader/></div>;
 
@@ -144,6 +178,66 @@ const ProfilePage = () => {
                     </p>
                 )}
             </div>
+
+                    {/* BMDC Number */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">BMDC Number</h2>
+          {isEditing ? (
+            <input
+              className="w-1/2 p-2 border border-gray-300 rounded-md"
+              value={BMDCNumber}
+              onChange={(e) => setBMDCNumber(e.target.value)}
+            />
+          ) : (
+            <p className="text-gray-600">{BMDCNumber || "No BMDC number provided."}</p>
+          )}
+        </div>
+
+
+        {/* Online Fee */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Online Consultation Fee</h2>
+          {isEditing ? (
+            <input
+              type="number"
+              className="w-1/2 p-2 border border-gray-300 rounded-md"
+              value={onlineFee}
+              onChange={(e) => setOnlineFee(e.target.value)}
+            />
+          ) : (
+            <p className="text-gray-600">{onlineFee || "No online consultation fee provided."}</p>
+          )}
+        </div>
+
+        {/* Followup Fee */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Follow-up Consultation Fee</h2>
+          {isEditing ? (
+            <input
+              type="number"
+              className="w-1/2 p-2 border border-gray-300 rounded-md"
+              value={followupFee}
+              onChange={(e) => setFollowupFee(e.target.value)}
+            />
+          ) : (
+            <p className="text-gray-600">{followupFee || "No follow-up consultation fee provided."}</p>
+          )}
+        </div>
+
+        {/* Chamber Fee */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Chamber Consultation Fee</h2>
+          {isEditing ? (
+            <input
+              type="number"
+              className="w-1/2 p-2 border border-gray-300 rounded-md"
+              value={chamberFee}
+              onChange={(e) => setChamberFee(e.target.value)}
+            />
+          ) : (
+            <p className="text-gray-600">{chamberFee || "No chamber consultation fee provided."}</p>
+          )}
+        </div>
 
              {/* Specialization Section */}
              <div className="mb-8">
@@ -206,21 +300,21 @@ const ProfilePage = () => {
             </div>
 
             {/* Consultation Hours Section */}
-
-            <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Consultation Hours</h2>
-                {isEditing ? (
-                    <textarea
-                        className="w-1/2 p-2 border border-gray-300 rounded-md"
-                        value={consultation}
-                        onChange={(e) => setConsultation(e.target.value)}
-                    />
-                ) : (
-                    <p className="text-gray-600">
-                        {consultation || "No experience provided."}
-                    </p>
-                )}
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Consultation Hours</h2>
+          {isEditing ? (
+            <div className="flex space-x-4">
+              <TimePicker label="From" time={consultationStart} setTime={setConsultationStart} />
+              <TimePicker label="To" time={consultationEnd} setTime={setConsultationEnd} />
             </div>
+          ) : (
+            <p className="text-gray-600">
+              {consultationStart && consultationEnd
+                ? `From ${consultationStart} to ${consultationEnd}`
+                : "No consultation hours provided."}
+            </p>
+          )}
+        </div>
 
             {/* Ratings/Reviews Section */}
             <div className="mb-8">
