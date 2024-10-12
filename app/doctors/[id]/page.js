@@ -62,9 +62,9 @@ export default function DoctorPublicProfile() {
                     <div className="ml-4">
                         <h2 className="text-3xl font-bold">{doctor.username}</h2>
                         <p className="text-lg">
-                            {doctor.specialization && doctor.specialization.length > 0
-                                ? `Specializations: ${doctor.specialization.join(', ')}`
-                                : 'Specialization not available'}
+                            {doctor.specialities && doctor.specialities.length > 0
+                                ? `Specialities: ${doctor.specialities.join(', ')}`
+                                : 'Specialities not available'}
                         </p>
                         <p className="text-md">
                             {doctor.location || 'Location not specified'}

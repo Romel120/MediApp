@@ -12,24 +12,30 @@ const DoctorSignupForm = () => {
         email: "",
         dob: "",
         phone: "",
-        medicalLicense: "",
-        specialization: [],
-        idType: "",
         gender: "",
         age: "",
+        dr_title: "",  // Added for doctor's title
+        onlineFee: "", // Fees fields (if applicable)
+        followupFee: "",
+        chamberFee: "",
+        specialities: [], // For specializations
         password: "",
         confirmPassword: "",
     });
 
     const specializationsOptions = [
-        "Cardiologist","Dermatologist","Neurologist","Pediatrician","General Surgeon", "Orthopedics", "Allergy & Immunology", "Nephrology", 
-        "General Practitioner","Pediatric Surgery", "Psychiatry", "Anesthesiology", "Physical Medicine","Gastroenterology", 
-        "Diabetology & Endocrinology", "Rheumatology", "Physiotherapy","Dentistry", "Hepatology", "Medicine", "Ophthalmology (Eye)", 
-        "Oncology","Neuro Medicine", "Food & Nutrition", "ENT", "Pediatrics", "Skin & VD","Burn & Plastic Surgery", "Hematology", 
-        "Neuro Surgery", "Chest Disease", "Gynae & Obs", "Surgery", "Breast Diseases", "Cardiology", "Urology"
+        "Cardiologist", "Dermatologist", "Neurologist", "Pediatrician", "General Surgeon",
+        "Orthopedics", "Allergy & Immunology", "Nephrology", "General Practitioner",
+        "Pediatric Surgery", "Psychiatry", "Anesthesiology", "Physical Medicine", "Gastroenterology",
+        "Diabetology & Endocrinology", "Rheumatology", "Physiotherapy", "Dentistry", "Hepatology",
+        "Medicine", "Ophthalmology (Eye)", "Oncology", "Neuro Medicine", "Food & Nutrition", 
+        "ENT", "Pediatrics", "Skin & VD", "Burn & Plastic Surgery", "Hematology", 
+        "Neuro Surgery", "Chest Disease", "Gynae & Obs", "Surgery", "Breast Diseases", 
+        "Cardiology", "Urology"
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+    const [selectedSpecialization, setSelectedSpecialization] = useState(""); // State for selected specialization
 
     const handleDoctorSignupChange = (e) => {
         const { name, value } = e.target;
@@ -37,12 +43,13 @@ const DoctorSignupForm = () => {
     };
 
     // Add a specialization
-    const addSpecialization = (spec) => {
-        if (!doctorSignupData.specialization.includes(spec)) {
+    const addSpecialization = () => {
+        if (selectedSpecialization && !doctorSignupData.specialities.includes(selectedSpecialization)) {
             setDoctorSignupData({
                 ...doctorSignupData,
-                specialization: [...doctorSignupData.specialization, spec],
+                specialities: [...doctorSignupData.specialities, selectedSpecialization],
             });
+            setSelectedSpecialization(""); // Reset selected specialization after adding
         }
     };
 
@@ -50,7 +57,7 @@ const DoctorSignupForm = () => {
     const removeSpecialization = (spec) => {
         setDoctorSignupData({
             ...doctorSignupData,
-            specialization: doctorSignupData.specialization.filter((s) => s !== spec),
+            specialities: doctorSignupData.specialities.filter((s) => s !== spec),
         });
     };
 
@@ -64,12 +71,12 @@ const DoctorSignupForm = () => {
         }
 
         try {
-            const response = await fetch("/api2/doctors/signup", { // Updated the endpoint
+            const response = await fetch("/api2/doctors/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(doctorSignupData), // Send the signup data directly
+                body: JSON.stringify(doctorSignupData),
             });
 
             if (response.ok) {
@@ -80,11 +87,13 @@ const DoctorSignupForm = () => {
                     email: "",
                     dob: "",
                     phone: "",
-                    medicalLicense: "",
-                    specialization: [],
-                    idType: "",
                     gender: "",
                     age: "",
+                    dr_title: "", 
+                    onlineFee: "",
+                    followupFee: "",
+                    chamberFee: "",
+                    specialities: [],
                     password: "",
                     confirmPassword: "",
                 });
@@ -96,6 +105,7 @@ const DoctorSignupForm = () => {
             toast.error("An error occurred while creating the account");
         }
     };
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg mt-24 mb-10 transition-transform duration-300 hover:shadow-xl">
@@ -145,7 +155,7 @@ const DoctorSignupForm = () => {
                                 value={doctorSignupData.email}
                                 onChange={handleDoctorSignupChange}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="example@gmail.com"
+                                placeholder="Enter your email"
                                 required
                             />
                         </div>
@@ -164,9 +174,9 @@ const DoctorSignupForm = () => {
                             />
                         </div>
 
-                        {/* Phone Number */}
+                        {/* Phone */}
                         <div>
-                            <label htmlFor="phone" className="block text-text font-medium">Phone Number</label>
+                            <label htmlFor="phone" className="block text-text font-medium">Phone</label>
                             <input
                                 type="tel"
                                 id="phone"
@@ -174,69 +184,9 @@ const DoctorSignupForm = () => {
                                 value={doctorSignupData.phone}
                                 onChange={handleDoctorSignupChange}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="+123 456 789"
+                                placeholder="Enter your phone number"
                                 required
                             />
-                        </div>
-
-                        {/* Medical License */}
-                        <div>
-                            <label htmlFor="medicalLicense" className="block text-text font-medium">Medical License No.</label>
-                            <input
-                                type="text"
-                                id="medicalLicense"
-                                name="medicalLicense"
-                                value={doctorSignupData.medicalLicense}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Enter your license number"
-                                required
-                            />
-                        </div>
-
-                        {/* Specialization Button */}
-                        <div>
-                            <label className="block text-text font-medium mb-2">Specialization</label>
-                            <button
-                                type="button"
-                                onClick={() => setIsModalOpen(true)}
-                                className="px-4 py-2 bg-primary text-white rounded-md transition-colors duration-200 hover:bg-secondary"
-                            >
-                                Choose Specialization
-                            </button>
-
-                            {/* Display Selected Specializations */}
-                            <div className="flex flex-wrap items-center mt-4">
-                                {doctorSignupData.specialization.map((spec, index) => (
-                                    <div key={index} className="flex items-center bg-gray-200 rounded-full px-4 py-2 m-1">
-                                        <span>{spec}</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => removeSpecialization(spec)}
-                                            className="ml-2 text-red-500 hover:text-red-700"
-                                        >
-                                            &times;
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        {/* ID Type */}
-                        <div>
-                            <label htmlFor="idType" className="block text-text font-medium">ID Type</label>
-                            <select
-                                id="idType"
-                                name="idType"
-                                value={doctorSignupData.idType}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                required
-                            >
-                                <option value="">Select ID Type</option>
-                                <option value="Passport">Passport</option>
-                                <option value="Driver's License">Driver&apos;s License</option>
-                                <option value="National ID">National ID</option>
-                            </select>
                         </div>
 
                         {/* Gender */}
@@ -253,7 +203,7 @@ const DoctorSignupForm = () => {
                                 <option value="">Select Gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
-                                <option value="Others">Others</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
 
@@ -271,10 +221,124 @@ const DoctorSignupForm = () => {
                                 required
                             />
                         </div>
-                    </div>
 
-                    {/* Password and Confirm Password */}
-                    <div className="grid grid-cols-2 gap-6">
+                        {/* Doctor's Title */}
+                        <div>
+                            <label htmlFor="dr_title" className="block text-text font-medium">Doctor&apos;s Title</label>
+                            <input
+                                type="text"
+                                id="dr_title"
+                                name="dr_title"
+                                value={doctorSignupData.dr_title}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter your title (e.g., Dr., Prof.)"
+                                required
+                            />
+                        </div>
+
+                        {/* Online Fee */}
+                        <div>
+                            <label htmlFor="onlineFee" className="block text-text font-medium">Online Fee</label>
+                            <input
+                                type="number"
+                                id="onlineFee"
+                                name="onlineFee"
+                                value={doctorSignupData.onlineFee}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter your online consultation fee"
+                                required
+                            />
+                        </div>
+
+                        {/* Follow-Up Fee */}
+                        <div>
+                            <label htmlFor="followupFee" className="block text-text font-medium">Follow-Up Fee</label>
+                            <input
+                                type="number"
+                                id="followupFee"
+                                name="followupFee"
+                                value={doctorSignupData.followupFee}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter your follow-up consultation fee"
+                                required
+                            />
+                        </div>
+
+                        {/* Chamber Fee */}
+                        <div>
+                            <label htmlFor="chamberFee" className="block text-text font-medium">Chamber Fee</label>
+                            <input
+                                type="number"
+                                id="chamberFee"
+                                name="chamberFee"
+                                value={doctorSignupData.chamberFee}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter your chamber consultation fee"
+                                required
+                            />
+                        </div>
+
+                        {/* Qualifications */}
+                        {/* <div>
+                            <label htmlFor="qualifications" className="block text-text font-medium">Qualifications</label>
+                            <input
+                                type="text"
+                                id="qualifications"
+                                name="qualifications"
+                                value={doctorSignupData.qualifications}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter your qualifications"
+                                required
+                            />
+                        </div> */}
+
+                        {/* Additional Details */}
+                        {/* <div>
+                            <label htmlFor="details" className="block text-text font-medium">Additional Details</label>
+                            <textarea
+                                id="details"
+                                name="details"
+                                value={doctorSignupData.details}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter any additional details"
+                                rows="3"
+                            />
+                        </div> */}
+
+                        {/* Chamber Details */}
+                        {/* <div>
+                            <label htmlFor="chamberDetails" className="block text-text font-medium">Chamber Details</label>
+                            <textarea
+                                id="chamberDetails"
+                                name="chamberDetails"
+                                value={doctorSignupData.chamberDetails}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter chamber details"
+                                rows="3"
+                            />
+                        </div> */}
+
+                        {/* Join Date */}
+                        {/* <div>
+                            <label htmlFor="joinDate" className="block text-text font-medium">Join Date</label>
+                            <input
+                                type="date"
+                                id="joinDate"
+                                name="joinDate"
+                                value={doctorSignupData.joinDate}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                            />
+                        </div> */}
+
+                        {/* Password */}
                         <div>
                             <label htmlFor="password" className="block text-text font-medium">Password</label>
                             <input
@@ -284,10 +348,12 @@ const DoctorSignupForm = () => {
                                 value={doctorSignupData.password}
                                 onChange={handleDoctorSignupChange}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Enter your password"
+                                placeholder="Create a password"
                                 required
                             />
                         </div>
+
+                        {/* Confirm Password */}
                         <div>
                             <label htmlFor="confirmPassword" className="block text-text font-medium">Confirm Password</label>
                             <input
@@ -297,72 +363,65 @@ const DoctorSignupForm = () => {
                                 value={doctorSignupData.confirmPassword}
                                 onChange={handleDoctorSignupChange}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Confirm your password"
+                                placeholder="Re-enter your password"
                                 required
                             />
                         </div>
+
+                        {/* Specializations */}
+                        <div className="col-span-2">
+                            <label className="block text-text font-medium">Specializations</label>
+                            <div className="flex flex-wrap gap-2">
+                                {doctorSignupData.specialities.map((spec, index) => (
+                                    <span key={index} className="bg-primary text-white py-1 px-2 rounded">
+                                        {spec} 
+                                        <button
+                                            type="button"
+                                            onClick={() => removeSpecialization(spec)}
+                                            className="ml-2 text-xs text-gray-300 hover:text-white"
+                                        >
+                                            &times;
+                                        </button>
+                                    </span>
+                                ))}
+                            </div>
+                            <div className="flex gap-2 mt-2">
+                                <select
+                                    value={selectedSpecialization}
+                                    onChange={(e) => setSelectedSpecialization(e.target.value)}
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                >
+                                    <option value="">Select Specialization</option>
+                                    {specializationsOptions.map((option, index) => (
+                                        <option key={index} value={option}>
+                                            {option}
+                                        </option>
+                                    ))}
+                                </select>
+                                <button
+                                    type="button"
+                                    onClick={addSpecialization}
+                                    className="px-4 py-2 bg-primary text-white rounded-md hover:bg-blue-600 transition duration-200"
+                                >
+                                    Add
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                        <button type="reset" className="px-6 py-3 bg-gray-300 text-text rounded-md transition-colors duration-200 hover:bg-gray-400">
-                            Reset
-                        </button>
-                        <button type="submit" className="px-6 py-3 bg-primary text-white rounded-md transition-colors duration-200 hover:bg-secondary">
-                            Confirm
-                        </button>
-                    </div>
+                    {/* Submit Button */}
+                    <button
+                        type="submit"
+                        className="w-full py-3 bg-primary text-white rounded-md hover:bg-blue-600 transition duration-200"
+                    >
+                        Sign Up
+                    </button>
                 </form>
-
-                <p className="mt-4 text-center">
-                    Already have an account?{" "}
-                    <Link href="/choice/doctorLogin" className="text-primary hover:underline">Login here</Link>
+                <p className="mt-4 text-center text-gray-600">
+                    Already have an account? <Link href="/choice/doctorLogin" className="text-primary hover:underline">Login here</Link>.
                 </p>
             </div>
-            {/* Specialization Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                    <button
-                            onClick={() => setIsModalOpen(false)}
-                            className="mt-4 mr-2 px-4 py-2 bg-red-600 text-white rounded-md transition-colors duration-200 hover:bg-red-950"
-                        >
-                            ✗
-                        </button>
-                    <div className="bg-white p-6 rounded-lg max-w-lg w-full h-96 overflow-y-scroll">
-                    
-                        <h2 className="text-2xl font-bold mb-4">Select Specializations</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            {specializationsOptions.map((spec, index) => (
-                                <div key={index} className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        id={`specialization-${index}`}
-                                        checked={doctorSignupData.specialization.includes(spec)}
-                                        onChange={() =>
-                                            doctorSignupData.specialization.includes(spec)
-                                                ? removeSpecialization(spec)
-                                                : addSpecialization(spec)
-                                        }
-                                    />
-                                    <label
-                                        htmlFor={`specialization-${index}`}
-                                        className="ml-2 text-text font-medium"
-                                    >
-                                        {spec}
-                                    </label>
-                                </div>
-                            ))}
-                        </div>
-                        <button
-                            onClick={() => setIsModalOpen(false)}
-                            className="mt-4 px-4 py-2 bg-primary text-white rounded-md transition-colors duration-200 hover:bg-secondary"
-                        >
-                            Done
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
-
     );
 };
 

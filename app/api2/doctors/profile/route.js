@@ -24,10 +24,19 @@ export const PUT = async (request) => {
 
     try {
         const {
-            bio, experience, consultation, consultationStart, consultationEnd,
-            drTitle, BMDCNumber, expYear, onlineFees, followupFees, clinicFees,
-            onlineHealthxFees, onlineVat, onlineTotalFees, followupHealthxFees,
-            followupVat, followupTotalFees, isVerify, isShownPartner, onlineFee,followupFee, chamberFee
+            bio,
+            // experience,
+            // consultation,
+            consultationStart,
+            consultationEnd,
+            dr_title,  // Adjusted to match the model
+            onlineFee,
+            followupFee,
+            chamberFee,
+            specialities, // New field
+            qualifications, // New field
+            details, // New field
+            chamberDetails // New field
         } = await request.json();
 
         const doctorId = getDataFromToken(request);
@@ -39,11 +48,18 @@ export const PUT = async (request) => {
         const updatedDoctor = await Doctor.findByIdAndUpdate(
             doctorId,
             {
-                bio, experience, consultation, consultationStart, consultationEnd,
-                drTitle, BMDCNumber, expYear, onlineFees, followupFees, clinicFees,
-                onlineHealthxFees, onlineVat, onlineTotalFees, followupHealthxFees,
-                followupVat, followupTotalFees, isVerify, isShownPartner,onlineFee,followupFee, chamberFee,
-            },
+                ...(bio && { bio }), // Only update if bio is provided
+                ...(consultationStart && { consultationStart }), // Only update if consultationStart is provided
+                ...(consultationEnd && { consultationEnd }), // Only update if consultationEnd is provided
+                ...(dr_title && { dr_title }), // Only update if dr_title is provided
+                ...(onlineFee !== undefined && { onlineFee }), // Only update if onlineFee is provided
+                ...(followupFee !== undefined && { followupFee }), // Only update if followupFee is provided
+                ...(chamberFee !== undefined && { chamberFee }), // Only update if chamberFee is provided
+                ...(specialities && { specialities }), // Only update if specialities is provided
+                ...(qualifications && { qualifications }), // Only update if qualifications is provided
+                ...(details && { details }), // Only update if details is provided
+                ...(chamberDetails && { chamberDetails }), // Only update if chamberDetails is provided
+             },
             { new: true }
         );
 

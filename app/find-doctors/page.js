@@ -7,7 +7,7 @@ import DoctorFilterSidebar from "@/app/components/DoctorFilterSidebar";
 export default function FindDoctors() {
   const [doctors, setDoctors] = useState([]); // All doctors from the API
   const [filteredDoctors, setFilteredDoctors] = useState([]); // Doctors after filtering
-  const [specializations, setSpecializations] = useState([]);
+  const [specialities, setSpecialities] = useState([]);
   const [locations, setLocations] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // To handle loading state
 
@@ -40,14 +40,14 @@ export default function FindDoctors() {
       setDoctors(data.doctors); // Set all doctors
       setFilteredDoctors(data.doctors); // Initially show all doctors
 
-      // Extract unique specializations and locations
-      const uniqueSpecializations = [
-        ...new Set(data.doctors.map((doc) => doc.specialization)),
+      // Extract unique Specialities and locations
+      const uniqueSpecialities = [
+        ...new Set(data.doctors.map((doc) => doc.specialities)),
       ];
       const uniqueLocations = [
         ...new Set(data.doctors.map((doc) => doc.location)),
       ];
-      setSpecializations(uniqueSpecializations);
+      setSpecialities(uniqueSpecialities);
       setLocations(uniqueLocations);
       setIsLoading(false);
     };
@@ -56,20 +56,20 @@ export default function FindDoctors() {
   }, []);
 
   // Handle filtering logic
-  const handleFilterChange = ({ specialization, location, doctorName }) => {
+  const handleFilterChange = ({ specialities, location, doctorName }) => {
     const filtered = doctors.filter((doc) => {
-      const matchesSpecialization =
-        !specialization ||
-        (Array.isArray(doc.specialization)
-          ? doc.specialization.includes(specialization)
-          : doc.specialization === specialization);
+      const matchesSpecialities =
+        !specialities ||
+        (Array.isArray(doc.specialities)
+          ? doc.specialities.includes(specialities)
+          : doc.specialities === specialities);
 
       const matchesLocation = !location || doc.location === location;
 
       const matchesDoctorName =
         !doctorName || doc.fullName.toLowerCase().includes(doctorName.toLowerCase());
 
-      return matchesSpecialization && matchesLocation && matchesDoctorName;
+      return matchesSpecialities && matchesLocation && matchesDoctorName;
     });
 
     setFilteredDoctors(filtered); // Update the displayed doctors based on the filter
@@ -84,7 +84,7 @@ export default function FindDoctors() {
       {/* Sidebar */}
       <div className="w-full md:w-1/4">
         <DoctorFilterSidebar
-          specializations={specializations}
+          specialities={specialities}
           locations={locations}
           onFilterChange={handleFilterChange}
         />

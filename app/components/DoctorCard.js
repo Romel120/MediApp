@@ -16,7 +16,7 @@ const DoctorCard = ({ doctor }) => {
         </div>
         <div>
           <h2 className="text-xl font-bold">{doctor.fullName}</h2>
-          <p className="text-sm italic">{doctor.specialization.join(", ")}</p>
+          <p className="text-sm italic">{doctor.specialities.join(", ")}</p>
         </div>
       </div>
 
@@ -24,8 +24,8 @@ const DoctorCard = ({ doctor }) => {
       <div className="p-6">
         <div className="mb-4">
           <p className="text-gray-700">
-            <span className="font-semibold">Specialization: </span>
-            {doctor.specialization.join(", ")}
+            <span className="font-semibold">Specialities: </span>
+            {doctor.specialities.join(", ")}
           </p>
         </div>
 

@@ -1,21 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => {
-  const [selectedSpecialization, setSelectedSpecialization] = useState("");
+const DoctorFilterSidebar = ({ specialities, locations, onFilterChange }) => {
+  const [selectedSpecialities, setSelectedSpecialities] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [doctorName, setDoctorName] = useState(""); // State for doctor name search
-  const [uniqueSpecializations, setUniqueSpecializations] = useState([]);
+  const [uniqueSpecialities, setUniqueSpecialities] = useState([]);
 
   useEffect(() => {
-    // Ensure we show only unique specializations
-    const uniqueSpecs = [...new Set(specializations.flat())];
-    setUniqueSpecializations(uniqueSpecs);
-  }, [specializations]);
+    // Ensure we show only unique Specialities
+    const uniqueSpecs = [...new Set(specialities.flat())];
+    setUniqueSpecialities(uniqueSpecs);
+  }, [specialities]);
 
   const handleFilter = () => {
     onFilterChange({
-      specialization: selectedSpecialization,
+      specialities: selectedSpecialities,
       location: selectedLocation,
       doctorName, // Pass the doctor name to the filter handler
     });
@@ -41,12 +41,12 @@ const DoctorFilterSidebar = ({ specializations, locations, onFilterChange }) => 
       <div className="mb-6">
         <label className="block text-text font-medium">Specialization</label>
         <select
-          value={selectedSpecialization}
-          onChange={(e) => setSelectedSpecialization(e.target.value)}
+          value={selectedSpecialities}
+          onChange={(e) => setSelectedSpecialities(e.target.value)}
           className="w-full border-gray-300 p-2 mt-1 rounded-md"
         >
-          <option value="">All Specializations</option>
-          {uniqueSpecializations.map((spec) => (
+          <option value="">All Specialities</option>
+          {uniqueSpecialities.map((spec) => (
             <option key={spec} value={spec}>
               {spec}
             </option>
