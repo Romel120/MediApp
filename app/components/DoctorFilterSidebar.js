@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const DoctorFilterSidebar = ({ specialities, locations, onFilterChange }) => {
+const DoctorFilterSidebar = ({ specialities, onFilterChange }) => {
   const [selectedSpecialities, setSelectedSpecialities] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
   const [doctorName, setDoctorName] = useState(""); // State for doctor name search
+  const [sortOrder, setSortOrder] = useState(""); // New state for sorting order
   const [uniqueSpecialities, setUniqueSpecialities] = useState([]);
 
   useEffect(() => {
@@ -16,8 +16,8 @@ const DoctorFilterSidebar = ({ specialities, locations, onFilterChange }) => {
   const handleFilter = () => {
     onFilterChange({
       specialities: selectedSpecialities,
-      location: selectedLocation,
       doctorName, // Pass the doctor name to the filter handler
+      sortOrder,  // Pass the sort order to the filter handler
     });
   };
 
@@ -54,20 +54,17 @@ const DoctorFilterSidebar = ({ specialities, locations, onFilterChange }) => {
         </select>
       </div>
 
-      {/* Location Filter */}
+      {/* Sort by Date */}
       <div className="mb-6">
-        <label className="block text-text font-medium">Location</label>
+        <label className="block text-text font-medium">Sort by Date</label>
         <select
-          value={selectedLocation}
-          onChange={(e) => setSelectedLocation(e.target.value)}
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
           className="w-full border-gray-300 p-2 mt-1 rounded-md"
         >
-          <option value="">All Locations</option>
-          {locations.map((location) => (
-            <option key={location} value={location}>
-              {location}
-            </option>
-          ))}
+          <option value="">None</option>
+          <option value="asc">Ascending (Oldest First)</option>
+          <option value="desc">Descending (Newest First)</option>
         </select>
       </div>
 

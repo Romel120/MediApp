@@ -9,6 +9,7 @@ export default function FindDoctors() {
   const [filteredDoctors, setFilteredDoctors] = useState([]); // Doctors after filtering
   const [specialities, setSpecialities] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [sortOrder, setSortOrder] = useState(""); // New state for sorting order
   const [isLoading, setIsLoading] = useState(true); // To handle loading state
 
   const Loader = () => (
@@ -56,7 +57,7 @@ export default function FindDoctors() {
   }, []);
 
   // Handle filtering logic
-  const handleFilterChange = ({ specialities, location, doctorName }) => {
+  const handleFilterChange = ({ specialities, location, doctorName, sortOrder }) => {
     const filtered = doctors.filter((doc) => {
       const matchesSpecialities =
         !specialities ||
@@ -71,6 +72,15 @@ export default function FindDoctors() {
 
       return matchesSpecialities && matchesLocation && matchesDoctorName;
     });
+
+    // Sort the filtered results based on updatedAt
+    if (sortOrder) {
+      filtered.sort((a, b) => {
+        const dateA = new Date(a.updatedAt);
+        const dateB = new Date(b.updatedAt);
+        return sortOrder === "asc" ? dateA - dateB : dateB - dateA; // Ascending or descending
+      });
+    }
 
     setFilteredDoctors(filtered); // Update the displayed doctors based on the filter
   };

@@ -3,52 +3,55 @@ import Link from "next/link";
 
 const DoctorCard = ({ doctor }) => {
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-lg rounded-lg overflow-hidden transition transform hover:scale-105 duration-300 ease-in-out">
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 duration-300 ease-in-out p-6">
       {/* Header section with Doctor Name and Image */}
-      <div className="flex items-center p-4 bg-primary text-white">
-        <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mr-4 overflow-hidden">
+      <div className="flex items-center p-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-lg">
+        <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mr-4 overflow-hidden shadow-md">
           <Image
             src={doctor.profileImage || "/assets/docProfile.png"} // Provide a default image if none exists
-            alt="Doctor"width={500}
+            alt="Doctor"
+            width={500}
             height={500}
             className="object-cover w-full h-full"
           />
         </div>
         <div>
-          <h2 className="text-xl font-bold">{doctor.fullName}</h2>
+          <h2 className="text-2xl font-bold">{doctor.dr_title} {doctor.fullName}</h2>
           <p className="text-sm italic">{doctor.specialities.join(", ")}</p>
         </div>
       </div>
 
       {/* Body section with more details */}
-      <div className="p-6">
-        <div className="mb-4">
-          <p className="text-gray-700">
-            <span className="font-semibold">Specialities: </span>
-            {doctor.specialities.join(", ")}
-          </p>
-        </div>
+      <div className="mt-4">
+        <p className="text-gray-700 mb-2">
+          <span className="font-semibold">Age: </span>
+          {doctor.age} years
+        </p>
+        <p className="text-gray-700 mb-2">
+          <span className="font-semibold">Bio: </span>
+          {doctor.bio}
+        </p>
 
-        <div className="mb-4">
-          <p className="text-gray-700">
-            <span className="font-semibold">Location: </span>
-            {doctor.location || "Not specified"}
-          </p>
-        </div>
-
-        <div className="mb-4">
-          <p className="text-gray-700">
-            <span className="font-semibold">Experience: </span>
-            {doctor.experience || "N/A"}
-          </p>
-        </div>
+        {/* Show only the first Chamber Detail */}
+        <h3 className="font-semibold mt-4">Chamber Details:</h3>
+        {doctor.chamberDetails.length > 0 ? (
+          <div className="text-gray-700 mb-2">
+            <p>
+              <span className="font-semibold">{doctor.chamberDetails[0].chamberName}</span>
+              <span> - {doctor.chamberDetails[0].address}, {doctor.chamberDetails[0].city}</span>
+              <span> (Fee: ${doctor.chamberDetails[0].chamberFee})</span>
+            </p>
+          </div>
+        ) : (
+          <p className="text-gray-700">No chamber details available.</p>
+        )}
 
         {/* View Profile Button */}
-        <div className="text-center">
-        <Link href={`/doctors/${doctor._id}`} passHref>
-          <button className="w-full px-4 py-2 bg-secondary text-white font-semibold rounded-md hover:bg-secondary-dark shadow-md transition duration-300">
-            View Profile
-          </button>
+        <div className="text-center mt-4">
+          <Link href={`/doctors/${doctor._id}`} passHref>
+            <button className="w-full px-4 py-2 bg-secondary text-white font-semibold rounded-md hover:bg-secondary-dark shadow-md transition duration-300 transform hover:scale-105">
+              View Profile
+            </button>
           </Link>
         </div>
       </div>
