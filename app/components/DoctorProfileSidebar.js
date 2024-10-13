@@ -1,40 +1,41 @@
-// components/DoctorProfileSidebar.js
-
 "use client";
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
 
-const DoctorProfileSidebar = () => {
+const DoctorProfileSidebar = ({ setSection }) => {
+    const [selectedSection, setSelectedSection] = useState('profile');
+
+    const sections = [
+        { name: 'profile', label: 'My Profile' },
+        { name: 'qualifications', label: 'Qualifications' },
+        { name: 'appointments', label: 'Manage Appointments' },
+        { name: 'consultations', label: 'Consultations' },
+        { name: 'details', label: 'Professional Details' },
+        { name: 'chamberdetails', label: 'Chamber Details' },
+        { name: 'settings', label: 'Account Settings' },
+        { name: 'logout', label: 'Logout', isLogout: true }
+    ];
+
     return (
-        <div className="w-64 bg-gray-100 p-4 rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold mb-4">Navigation</h2>
-            <ul className="space-y-2">
-                <li>
-                    <Link href="/doctor/dashboard" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                        Dashboard
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/doctor/appointments" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                        Appointments
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/doctor/profile" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                        Profile Settings
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/doctor/consultations" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                       Consultations
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/logout" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                        logout
-                    </Link>
-                </li>
+        <div className="w-64 bg-white p-4 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-6">Doctor Dashboard</h2>
+            <ul className="space-y-4">
+                {sections.map((section) => (
+                    <li key={section.name}>
+                        <button
+                            onClick={() => {
+                                setSelectedSection(section.name);
+                                setSection(section.name); // Call setSection to notify the parent
+                            }}
+                            className={`block w-full text-left p-3 rounded-md ${selectedSection === section.name ? 
+                                (section.isLogout ? 'bg-red-500 text-white' : 'bg-blue-600 text-white') : 
+                                'text-gray-800 hover:bg-blue-600 hover:text-white'}`
+                            }
+                        >
+                            {section.label}
+                        </button>
+                    </li>
+                ))}
             </ul>
         </div>
     );
