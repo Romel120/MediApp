@@ -18,6 +18,8 @@ export default function AppointmentBooking() {
   });
 
   const [doctors, setDoctors] = useState([]);  // To store the doctors fetched from the API
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Fetch doctor names from the API when the component mounts
   useEffect(() => {
@@ -48,9 +50,42 @@ export default function AppointmentBooking() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data submitted:', formData);
+    
+    // Reset messages
+    setError('');
+    setSuccessMessage('');
+  
+    // Format the data to send to the API
+    const formattedData = {
+      doctorId: formData.doctor,  // Rename 'doctor' to 'doctorId'
+      appointmentDate: formData.date,
+      appointmentTime: formData.time,
+      appointmentType: formData.appointmentType,
+      additionalDetails: formData.additionalDetails
+    };
+  
+    try {
+      const response = await fetch("/api2/appointments/books", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formattedData),  // Send the formatted data to the backend
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        setSuccessMessage('Appointment booked successfully');
+      } else {
+        setError(result.message || 'An error occurred');
+      }
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      setError('An error occurred while booking the appointment.');
+    }
   };
 
   return (
@@ -72,7 +107,7 @@ export default function AppointmentBooking() {
             >
               <option value="" disabled>Select a doctor</option>
               {doctors.map((doctor) => (
-                <option key={doctor._id} value={doctor.fullName}>
+                <option key={doctor._id} value={doctor._id}>
                   {doctor.fullName}
                 </option>
               ))}
@@ -167,6 +202,10 @@ export default function AppointmentBooking() {
             </button>
           </div>
         </form>
+
+        {/* Display success or error messages */}
+        {successMessage && <p className="text-green-600 mt-4">{successMessage}</p>}
+        {error && <p className="text-red-600 mt-4">{error}</p>}
       </div>
 
       {/* Right side video */}
