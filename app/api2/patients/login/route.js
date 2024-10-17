@@ -23,7 +23,7 @@ export async function POST(request) {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ id: patient._id }, process.env.TOKEN_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: patient._id }, process.env.TOKEN_SECRET, { expiresIn: "1d" });
 
         const response = NextResponse.json({
             message: "Login successful",
