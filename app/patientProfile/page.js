@@ -4,6 +4,7 @@ import { useState } from 'react';
 import PatientSidebar from '@/app/components/PatientProfileSidebar';
 import PHRReports from '@/app/components/PHRReports';
 import Patienterofile from '@/app/components/PatientProfile';
+import PatientAppointmentCard from '@/app/components/PatientAppointmentCard';
 
 const PatientProfile = () => {
   const [activeSection, setActiveSection] = useState('profile');
@@ -14,6 +15,9 @@ const PatientProfile = () => {
     }
     else if(activeSection === 'profile'){
         return <Patienterofile />;
+    }
+    else if(activeSection === 'appointments'){
+        return <PatientAppointmentCard />;
     }
      else {
       return (
