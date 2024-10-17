@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken'; // Import jwt for token decoding
 dbConnect();
 
 export const POST = async (request) => {
-  const { doctorId, appointmentDate, appointmentTime } = await request.json();
+  const { doctorId, appointmentDate, appointmentTime ,appointmentType } = await request.json();
 
   // Get the token from the cookies
   const token = getCookie('token', { req: request });
@@ -36,6 +36,7 @@ export const POST = async (request) => {
       doctor: doctorId,
       appointmentDate,
       appointmentTime,
+      appointmentType
     });
 
     if (existingAppointment) {
@@ -48,6 +49,7 @@ export const POST = async (request) => {
       patient: patientId, // Retrieved from the token
       appointmentDate,
       appointmentTime,
+      appointmentType
     });
 
     await appointment.save();

@@ -7,6 +7,7 @@ import ChamberDetails from "../components/ChamberDetails";
 import ConsultationFees from "../components/ConsultationFees";
 import ConsultationTimings from "../components/ConsultationTimings";
 import DoctorInfo from "../components/DoctorInfo";
+import AppointmentCard from "../components/AppointmentCard";
 
 // Example Loader component
 const Loader = () => (
@@ -44,6 +45,7 @@ const ProfilePage = () => {
   const [consultationStart, setConsultationStart] = useState("");
   const [consultationEnd, setConsultationEnd] = useState("");
   const [specialities, setSpecialities] = useState([]);
+  const [appointments, setAppointments] = useState([]);
   const [qualifications, setQualifications] = useState([{ degree: "", institution: "", yearOfCompletion: "", certification: "", specialization: "" }]);
   const [details, setDetails] = useState([{ institute: "", position: "", start_date: "", end_date: "" }]);
   const [chamberDetails, setChamberDetails] = useState([{ chamberName: "", address: "", city: "", chamberFee: "", contact: "", startTime: "", endTime: "" }]);
@@ -51,6 +53,15 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [selectedSection, setSelectedSection] = useState('profile'); // Default to 'profile' section
+  const [status, setStatus] = useState(appointments.status);
+
+  const handleStatusChange = (e) => {
+    const newStatus = e.target.value;
+    setStatus(newStatus);
+
+    // Here you can also make an API call to update the status in the database
+    // Example: await updateAppointmentStatus(appointment._id, newStatus);
+  };
   
 
   // Render different content based on the selected section
@@ -137,14 +148,28 @@ const ProfilePage = () => {
             </div>
           </div>
         );
-      case 'appointments':
-        return (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Appointments</h2>
-            {/* Add appointment management functionality here */}
-            <p>You have no upcoming appointments.</p>
-          </div>
-        );
+        case 'appointments':
+          return (
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Appointments</h2>
+              {appointments.length === 0 ? (
+                <p>You have no upcoming appointments.</p>
+              ) : (
+                <ul className="space-y-4">
+          {appointments.map((appointment) => (
+            <li key={appointment._id}>
+              <AppointmentCard 
+                appointment={appointment} 
+                onUpdateStatus={updateAppointmentStatus} 
+              />
+            </li>
+          ))}
+        </ul>
+
+              )}
+            </div>
+          );
+        
       case 'consultations':
         return (
           <div>
@@ -182,6 +207,45 @@ const ProfilePage = () => {
         return <div>Unknown section</div>;
     }
   };
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+        try {
+            const response = await fetch("/api2/appointments/doctors"); // Ensure this is correct
+            if (!response.ok) throw new Error("Failed to fetch appointments");
+            const data = await response.json();
+            console.log("Fetched appointments:", data); // Log the fetched data
+            setAppointments(data || []);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    if (selectedSection === 'appointments') {
+        fetchAppointments();
+    }
+}, [selectedSection]);
+
+async function updateAppointmentStatus(appointmentId, newStatus) {
+  const response = await fetch(`/api2/appointments/doctors/${appointmentId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: newStatus }), // Send the new status in the request body
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Error updating appointment:', errorData);
+    return;
+  }
+
+  const updatedAppointment = await response.json();
+  console.log('Updated appointment:', updatedAppointment);
+}
+
+  
   useEffect(() => {
     const fetchProfile = async () => {
       try {

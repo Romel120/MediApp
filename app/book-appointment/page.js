@@ -13,7 +13,7 @@ export default function AppointmentBooking() {
     doctor: '',
     date: null, // Use null instead of an empty string for react-datepicker
     time: '',
-    appointmentType: 'Doctor\'s Chamber',
+    appointmentType: 'chamber',
     additionalDetails: ''
   });
 
@@ -123,8 +123,8 @@ export default function AppointmentBooking() {
                   id="doctorsChamber"
                   name="appointmentType"
                   type="radio"
-                  value="Doctor's Chamber"
-                  checked={formData.appointmentType === "Doctor's Chamber"}
+                  value="chamber"
+                  checked={formData.appointmentType === "chamber"}
                   onChange={handleChange}
                   className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
                 />
@@ -137,8 +137,8 @@ export default function AppointmentBooking() {
                   id="onlineMeeting"
                   name="appointmentType"
                   type="radio"
-                  value="Online Meeting"
-                  checked={formData.appointmentType === "Online Meeting"}
+                  value="online"
+                  checked={formData.appointmentType === "online"}
                   onChange={handleChange}
                   className="h-4 w-4 text-primary focus:ring-primary border-gray-300"
                 />
