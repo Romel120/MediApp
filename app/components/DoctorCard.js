@@ -8,7 +8,7 @@ const DoctorCard = ({ doctor }) => {
       <div className="flex items-center p-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-lg">
         <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mr-4 overflow-hidden shadow-md">
           <Image
-            src={doctor.profileImage || "/assets/docProfile.png"} // Provide a default image if none exists
+            src={doctor.profilePicture || "/assets/docProfile.png"} // Provide a default image if none exists
             alt="Doctor"
             width={500}
             height={500}

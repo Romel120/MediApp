@@ -70,7 +70,8 @@ const ProfilePage = () => {
       case 'profile':
         return (
           <div>
-            <DoctorInfo doctorData={doctorData} />
+            <DoctorInfo doctorData={doctorData} 
+              isEditing={isEditing}  />
             {/* Specialties */}
             <div className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Specialties</h2>
@@ -357,7 +358,7 @@ async function updateAppointmentStatus(appointmentId, newStatus) {
   if (!doctorData) return <div className="mt-24"><Loader /></div>;
 
   return (
-    <div className="flex max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-28">
+    <div className="flex max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-28">
       {/* Sidebar */}
       <DoctorProfileSidebar setSection={setSelectedSection} />
 
