@@ -1,13 +1,15 @@
 import dbConnect from "@/lib/db";
 import Appointment from "@/lib/models/appointment";
+import Doctor from "@/lib/models/doctor";  // Import Doctor model
+import Patient from "@/lib/models/patient";  // Import Patient model
 import { NextResponse } from "next/server";
 import { getCookie } from 'cookies-next';
-import jwt from 'jsonwebtoken'; // Import jwt for token decoding
+import jwt from 'jsonwebtoken';
 
 dbConnect();
 
 export const GET = async (request) => {
-  // Extract doctor ID from the query parameters or cookies
+  // Extract the token from cookies
   const token = getCookie('token', { req: request });
 
   if (!token) {
@@ -15,12 +17,13 @@ export const GET = async (request) => {
   }
 
   try {
-    // Decode the token to get the doctor's ID
+    // Decode the JWT token to get the doctor's ID
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-    const doctorId = decoded.id; // Assuming 'id' holds the doctor's ID in your JWT payload
+    const doctorId = decoded.id; // Assuming 'id' holds the doctor's ID in the JWT
 
-    // Fetch all appointments related to the doctor
-    const appointments = await Appointment.find({ doctor: doctorId }).populate('patient', '-password'); // Exclude sensitive data from patient
+    // Fetch all appointments related to the doctor, populate patient details
+    const appointments = await Appointment.find({ doctor: doctorId })
+      .populate('patient', '-password');  // Exclude sensitive fields like password
 
     if (!appointments || appointments.length === 0) {
       return NextResponse.json({ message: 'No appointments found for this doctor' }, { status: 404 });

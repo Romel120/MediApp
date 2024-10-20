@@ -59,6 +59,7 @@ const MyAppointments = () => {
             appointment._id === id ? { ...appointment, status: newStatus } : appointment
           )
         );
+        fetchAppointments();
       }
     } catch (error) {
       console.error("Error updating appointment status:", error);

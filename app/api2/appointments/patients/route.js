@@ -1,5 +1,7 @@
 import dbConnect from "@/lib/db";
 import Appointment from "@/lib/models/appointment";
+import Doctor from "@/lib/models/doctor";  // Import Doctor model
+import Patient from "@/lib/models/patient";  // Import Patient model
 import { NextResponse } from "next/server";
 import { getCookie } from 'cookies-next';
 import jwt from 'jsonwebtoken'; // Import jwt for token decoding
