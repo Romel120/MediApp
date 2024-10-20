@@ -1,60 +1,101 @@
 "use client";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
 
-const UploadImage = ({ userType, onUploadSuccess, isEditing }) => {
+const UploadImage = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
 
+  // Handle file selection
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setError(''); // Clear any previous errors
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  // Upload image to backend (Cloudinary)
+  const handleUpload = async () => {
     if (!file) {
-      alert("Please select a file");
+      setError('Please select a file');
       return;
     }
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("userType", userType);
+    setUploading(true);
 
     try {
-      const response = await fetch("/api2/uploads", {
-        method: "POST",
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('userType', 'doctor');  // Set userType, e.g., doctor
+
+      const res = await fetch('/api2/uploads', {
+        method: 'POST',
         body: formData,
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        onUploadSuccess(data.fileName);
-        alert("File uploaded successfully!");
+      const data = await res.json();
+      if (res.ok) {
+        onUploadSuccess(data.fileName);  // Call success callback with the file URL
+        setError('');
+        setFile(null); // Reset file after upload success
       } else {
-        alert("Upload failed: " + data.error);
+        setError(data.error || 'File upload failed');
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred during file upload.");
+      setError('An error occurred during upload');
+    } finally {
+      setUploading(false);
     }
   };
 
+  // Handle canceling the file selection
+  const handleCancel = () => {
+    setFile(null); // Reset the selected file
+    setError(''); // Clear any errors
+  };
+
   return (
-    isEditing && (
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 items-center">
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary-dark transition duration-200 ease-in-out"
-        />
+    <div className="flex flex-col items-center p-4 bg-white border rounded-lg shadow-lg">
+      <h2 className="text-2xl font-semibold mb-4">Upload Profile Picture</h2>
+      
+      {/* Preview the selected image */}
+      {file && (
+        <div className="mb-4">
+          <Image
+            src={URL.createObjectURL(file)}
+            alt="Selected Preview" width={200} height={200}
+            className="w-32 h-32 object-cover rounded-lg shadow-md"
+          />
+        </div>
+      )}
+
+      <input
+        type="file"
+        onChange={handleFileChange}
+        className="mb-4 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <div className="flex space-x-4">
         <button
-          type="submit"
-          className="bg-primary text-white py-2 px-6 rounded-full shadow-md hover:bg-primary-dark transition duration-200 ease-in-out"
+          onClick={handleUpload}
+          disabled={uploading}
+          className={`px-4 py-2 font-semibold text-white rounded-lg transition duration-200 ${
+            uploading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-500'
+          }`}
         >
-          Upload
+          {uploading ? 'Uploading...' : 'Upload Image'}
         </button>
-      </form>
-    )
+        <button
+          onClick={handleCancel}
+          className="px-4 py-2 font-semibold text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+      </div>
+      
+      {error && <p className="mt-2 text-red-500">{error}</p>}
+    </div>
   );
 };
 
