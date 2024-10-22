@@ -14,7 +14,6 @@ const PatientSignupForm = () => {
         phone: "",
         nationality: "",
         gender: "",
-        age: "",
         password: "",
         confirmPassword: "",
     });
@@ -52,7 +51,6 @@ const PatientSignupForm = () => {
                     phone: "",
                     nationality: "",
                     gender: "",
-                    age: "",
                     password: "",
                     confirmPassword: "",
                 });
@@ -141,7 +139,7 @@ const PatientSignupForm = () => {
                                 value={signupData.phone}
                                 onChange={handleSignupChange}
                                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="+123 456 789"
+                                placeholder="+880 *** **** ***"
                                 required
                             />
                         </div>
@@ -158,10 +156,7 @@ const PatientSignupForm = () => {
                                 required
                             >
                                 <option value="">Select Nationality</option>
-                                <option value="USA">USA</option>
-                                <option value="Canada">Canada</option>
-                                <option value="UK">UK</option>
-                                <option value="Brazil">Brazil</option>
+                                <option value="BANGLADESH">BANGLADESH</option>
                             </select>
                         </div>
 
@@ -183,7 +178,7 @@ const PatientSignupForm = () => {
                             </select>
                         </div>
 
-                        <div>
+                        {/* <div>
                             <label htmlFor="age" className="block text-text font-medium">Age</label>
                             <input
                                 type="number"
@@ -195,7 +190,7 @@ const PatientSignupForm = () => {
                                 placeholder="Enter your age"
                                 required
                             />
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Password and Confirm Password */}

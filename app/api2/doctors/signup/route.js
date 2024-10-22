@@ -17,7 +17,6 @@ export async function POST(request) {
             dob,
             phone,
             gender,
-            age,
             dr_title, // Added doctor's title
             onlineFee,
             followupFee,
@@ -31,7 +30,7 @@ export async function POST(request) {
         }
 
         // Validate required fields
-        if (!fullName || !username || !email || !password || !dob || !phone || !gender || !age || !dr_title) {
+        if (!fullName || !username || !email || !password || !dob || !phone || !gender || !dr_title) {
             return NextResponse.json({ error: 'All required fields must be filled' }, { status: 400 });
         }
 
@@ -45,7 +44,6 @@ export async function POST(request) {
             dob,
             phone,
             gender,
-            age,
             dr_title, // Adding doctor's title
             onlineFee, // Fees
             followupFee,

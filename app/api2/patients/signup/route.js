@@ -9,7 +9,7 @@ connect();
 
 export async function POST(request) {
     try {
-        const { fullName, username, email, dob, phone, nationality, gender, age, password } = await request.json();
+        const { fullName, username, email, dob, phone, nationality, gender, password } = await request.json();
 
         const existingPatient = await Patient.findOne({ email });
         if (existingPatient) {
@@ -27,7 +27,6 @@ export async function POST(request) {
             phone,
             nationality,
             gender,
-            age,
             password: hashedPassword,
         });
 

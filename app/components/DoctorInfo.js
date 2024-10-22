@@ -70,9 +70,7 @@ const DoctorInfo = ({ doctorData, isEditing }) => {
           {doctorData.dr_title} {doctorData.fullName}
         </h1>
         <p className="text-xl font-medium text-gray-600">{doctorData.specialty}</p>
-        <p className="text-lg text-gray-500">
-          {doctorData.location || "Location not available"}
-        </p>
+        
       </div>
 
       {/* Upload Image Button (Controlled by isEditing from parent) */}

@@ -187,10 +187,6 @@ const PatientProfile = () => {
                         <label className="text-sm font-medium text-gray-500">Gender</label>
                         <p className="text-gray-900 mt-1">{userData.gender}</p>
                       </div>
-                      <div>
-                        <label className="text-sm font-medium text-gray-500">Age</label>
-                        <p className="text-gray-900 mt-1">{userData.age}</p>
-                      </div>
                     </div>
                   </div>
 

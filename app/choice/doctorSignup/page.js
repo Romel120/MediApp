@@ -13,7 +13,6 @@ const DoctorSignupForm = () => {
         dob: "",
         phone: "",
         gender: "",
-        age: "",
         dr_title: "",  // Added for doctor's title
         onlineFee: "", // Fees fields (if applicable)
         followupFee: "",
@@ -88,7 +87,6 @@ const DoctorSignupForm = () => {
                     dob: "",
                     phone: "",
                     gender: "",
-                    age: "",
                     dr_title: "", 
                     onlineFee: "",
                     followupFee: "",
@@ -115,6 +113,20 @@ const DoctorSignupForm = () => {
 
                 <form onSubmit={handleDoctorSignupSubmit} className="space-y-6">
                     <div className="grid grid-cols-2 gap-6">
+                        {/* Doctor's Title */}
+                        <div>
+                            <label htmlFor="dr_title" className="block text-text font-medium">Doctor&apos;s Title</label>
+                            <input
+                                type="text"
+                                id="dr_title"
+                                name="dr_title"
+                                value={doctorSignupData.dr_title}
+                                onChange={handleDoctorSignupChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
+                                placeholder="Enter your title (e.g., Dr., Prof.)"
+                                required
+                            />
+                        </div>
                         {/* Full Name */}
                         <div>
                             <label htmlFor="fullName" className="block text-text font-medium">Full Name</label>
@@ -207,35 +219,7 @@ const DoctorSignupForm = () => {
                             </select>
                         </div>
 
-                        {/* Age */}
-                        <div>
-                            <label htmlFor="age" className="block text-text font-medium">Age</label>
-                            <input
-                                type="number"
-                                id="age"
-                                name="age"
-                                value={doctorSignupData.age}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Enter your age"
-                                required
-                            />
-                        </div>
-
-                        {/* Doctor's Title */}
-                        <div>
-                            <label htmlFor="dr_title" className="block text-text font-medium">Doctor&apos;s Title</label>
-                            <input
-                                type="text"
-                                id="dr_title"
-                                name="dr_title"
-                                value={doctorSignupData.dr_title}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Enter your title (e.g., Dr., Prof.)"
-                                required
-                            />
-                        </div>
+                        
 
                         {/* Online Fee */}
                         <div>
@@ -282,61 +266,6 @@ const DoctorSignupForm = () => {
                             />
                         </div>
 
-                        {/* Qualifications */}
-                        {/* <div>
-                            <label htmlFor="qualifications" className="block text-text font-medium">Qualifications</label>
-                            <input
-                                type="text"
-                                id="qualifications"
-                                name="qualifications"
-                                value={doctorSignupData.qualifications}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Enter your qualifications"
-                                required
-                            />
-                        </div> */}
-
-                        {/* Additional Details */}
-                        {/* <div>
-                            <label htmlFor="details" className="block text-text font-medium">Additional Details</label>
-                            <textarea
-                                id="details"
-                                name="details"
-                                value={doctorSignupData.details}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Enter any additional details"
-                                rows="3"
-                            />
-                        </div> */}
-
-                        {/* Chamber Details */}
-                        {/* <div>
-                            <label htmlFor="chamberDetails" className="block text-text font-medium">Chamber Details</label>
-                            <textarea
-                                id="chamberDetails"
-                                name="chamberDetails"
-                                value={doctorSignupData.chamberDetails}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                                placeholder="Enter chamber details"
-                                rows="3"
-                            />
-                        </div> */}
-
-                        {/* Join Date */}
-                        {/* <div>
-                            <label htmlFor="joinDate" className="block text-text font-medium">Join Date</label>
-                            <input
-                                type="date"
-                                id="joinDate"
-                                name="joinDate"
-                                value={doctorSignupData.joinDate}
-                                onChange={handleDoctorSignupChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary transition-colors duration-200 hover:bg-gray-50"
-                            />
-                        </div> */}
 
                         {/* Password */}
                         <div>
