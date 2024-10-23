@@ -94,15 +94,15 @@ const PatientProfile = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 text-center mb-2">{userData.fullName}&apos;s Profile</h1>
-
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 text-center mb-4">{userData.fullName}&apos;s Profile</h1>
+  
         {userData && (
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="p-6 md:p-8 flex flex-col md:flex-row gap-8">
+            <div className="p-6 sm:p-8 flex flex-col lg:flex-row gap-8">
               {/* Profile Image Section */}
-              <div className="md:w-1/3">
+              <div className="lg:w-1/3">
                 <div className="space-y-4">
-                  <div className="relative group mx-auto w-40">
+                  <div className="relative group mx-auto w-40 sm:w-48">
                     <Image
                       src={userData.profilePicture || '/assets/userProfile.jpg'}
                       alt="Profile"
@@ -150,12 +150,12 @@ const PatientProfile = () => {
                   )}
                 </div>
               </div>
-
+  
               {/* Information Section */}
-              <div className="md:w-2/3">
+              <div className="lg:w-2/3">
                 <div className="bg-gray-50 rounded-xl p-6 shadow-inner">
-                  <h2 className="text-2xl font-semibold text-gray-800 mb-6">Profile Information</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">Profile Information</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div>
                         <label className="text-sm font-medium text-gray-500">Full Name</label>
@@ -189,7 +189,7 @@ const PatientProfile = () => {
                       </div>
                     </div>
                   </div>
-
+  
                   {/* Verification Status */}
                   <div className="mt-6">
                     <label className="text-sm font-medium text-gray-500">Account Status</label>
@@ -205,6 +205,7 @@ const PatientProfile = () => {
       </div>
     </div>
   );
+  
 };
 
 export default PatientProfile;

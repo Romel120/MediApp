@@ -90,7 +90,7 @@ export default function FindDoctors() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex mt-20">
+    <div className="min-h-screen bg-background flex flex-col md:flex-row mt-20 mr-0">
       {/* Sidebar */}
       <div className="w-full md:w-1/4">
         <DoctorFilterSidebar
@@ -101,7 +101,7 @@ export default function FindDoctors() {
       </div>
 
       {/* Doctor Cards */}
-      <div className="w-full md:w-3/4 p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="w-full md:w-3/4 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDoctors.length > 0 ? (
           filteredDoctors.map((doctor) => (
             <DoctorCard key={doctor._id} doctor={doctor} />

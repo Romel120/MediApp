@@ -30,6 +30,11 @@ export default function Navbar() {
     window.location.href = "/"; // Redirect to homepage after logout
   };
 
+
+  const handleLinkClick = () => {
+    setMenuOpen(false); // Close the menu after a link is clicked
+  };
+
   return (
     <div className="bg-background mb-15">
       <nav className="bg-background shadow-lg py-4 px-6 fixed w-full top-0 z-20">
@@ -125,35 +130,35 @@ export default function Navbar() {
           className={`lg:hidden transition-all duration-300 ${menuOpen ? 'block' : 'hidden'} mt-4`}
         >
           <Link href="/find-doctors">
-            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300">
+            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300" onClick={handleLinkClick}>
               <FaSearch className="inline-block h-5 w-5 mr-2" /> Find Doctor
             </button>
           </Link>
           {userType === "doctor" ? (
             <Link href="/my-appointments">
-              <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300">
+              <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300" onClick={handleLinkClick}>
                 <FaCalendarAlt className="inline-block h-5 w-5 mr-2" /> My Appointments
               </button>
             </Link>
           ) : (
             <Link href="/book-appointment">
-              <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300">
+              <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300" onClick={handleLinkClick}>
                 <FaCalendarAlt className="inline-block h-5 w-5 mr-2" /> Book Appointment
               </button>
             </Link>
           )}
           <Link href="/blog">
-            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300">
+            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300" onClick={handleLinkClick}>
               <FaBlogger className="inline-block h-5 w-5 mr-2" /> Blogs
             </button>
           </Link>
           <Link href="/faq">
-            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300">
+            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300" onClick={handleLinkClick}>
               <FaQuestionCircle className="inline-block h-5 w-5 mr-2" /> FAQ
             </button>
           </Link>
           <Link href="/about-us">
-            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300">
+            <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300" onClick={handleLinkClick}>
               <FaInfoCircle className="inline-block h-5 w-5 mr-2" /> About Us
             </button>
           </Link>
@@ -161,12 +166,15 @@ export default function Navbar() {
           {isLoggedIn ? (
             <div className="mt-4">
               <Link href={userType === 'doctor' ? "/doctorProfile" : "/patientProfile"}>
-                <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300">
+                <button className="block text-text font-medium py-2 hover:text-primary transition-colors duration-300" onClick={handleLinkClick}>
                   Profile
                 </button>
               </Link>
               <button
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  handleLinkClick();
+                }}
                 className="block w-full text-left text-text font-medium py-2 hover:text-primary transition-colors duration-300"
               >
                 Logout
@@ -174,7 +182,7 @@ export default function Navbar() {
             </div>
           ) : (
             <Link href="/choice">
-              <button className="block w-full text-center bg-primary text-white px-6 py-2 mt-4 rounded-md hover:bg-accent transition-all duration-300 shadow-lg">
+              <button className="block w-full text-center bg-primary text-white px-6 py-2 mt-4 rounded-md hover:bg-accent transition-all duration-300 shadow-lg" onClick={handleLinkClick}>
                 Login / Signup
               </button>
             </Link>

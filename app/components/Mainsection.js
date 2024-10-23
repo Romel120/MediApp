@@ -45,56 +45,60 @@ export default function Mainsection() {
   className="flex justify-center items-center h-[60vh] sm:h-[80vh] md:h-screen pt-16 bg-center bg-no-repeat mb-2 bg-cover md:bg-[100%] sm:bg-contain"
   style={{
     backgroundImage: `url('/assets/msbg4.jpg')`,
-    backgroundSize: '100%', // Default for larger screens
+    backgroundSize: '100%',
     backgroundPosition: 'center',
     opacity: 0.8,
   }}
 >
+  <div className="flex w-full max-w-2xl flex-col items-center px-4 sm:px-8">
+    <h1 className="text-xl sm:text-4xl font-bold text-text mb-4 sm:mb-6 text-center">
+      Find the Right Specialist for Your Needs
+    </h1>
+    <p className="text-base sm:text-lg text-text mb-4 sm:mb-8 text-center">
+      Explore our wide range of medical specialties and easily book an appointment with the best doctors available.
+    </p>
 
-        <div className="flex w-full max-w-2xl flex-col items-center px-4 sm:px-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-text mb-4 sm:mb-6 text-center">
-            Find the Right Specialist for Your Needs
-          </h1>
-          <p className="text-base sm:text-lg text-text mb-6 sm:mb-8 text-center">
-            Explore our wide range of medical specialties and easily book an appointment with
-            the best doctors available.
-          </p>
-          <div className="flex flex-col sm:flex-row w-full">
-            <div className="mb-4 sm:mb-0">
-              <button
-                className="bg-indigo-600 text-white text-sm sm:text-lg font-semibold px-4 sm:px-8 py-3 rounded-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg"
-                onClick={() => setSpecialtyOpen(!isSpecialtyOpen)}
-              >
-                Specialty
-              </button>
+    {/* Search and Specialty Button Container */}
+    <div className="flex flex-col sm:flex-row w-full sm:items-center">
+      {/* Specialty Button Section (Hidden on small screens) */}
+      <div className="relative mb-4 sm:mb-0 sm:mr-4 hidden sm:block">
+        <button
+          className="bg-indigo-600 text-white text-sm sm:text-lg font-semibold px-4 sm:px-8 py-3 rounded-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg"
+          onClick={() => setSpecialtyOpen(!isSpecialtyOpen)}
+        >
+          Specialty
+        </button>
 
-              {isSpecialtyOpen && (
-                <div className="absolute bg-white shadow-lg rounded-md mt-2 w-72 sm:w-80 z-10">
-                  <ul className="p-4 grid grid-cols-1 gap-2 max-h-60 overflow-y-scroll">
-                    {specialties.map((specialty, index) => (
-                      <li key={index} className="text-text">
-                        {specialty}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-            <div className="flex w-full">
-              <input
-                type="text"
-                placeholder="Search for doctors"
-                className="px-4 py-3 border border-gray-300 rounded-l-md w-full text-text focus:outline-none focus:border-primary"
-              />
-              <Link href="/find-doctors">
-                <button className="bg-primary text-text text-sm sm:text-lg font-semibold px-4 sm:px-6 py-3 rounded-r-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg">
-                  Search
-                </button>
-              </Link>
-            </div>
+        {isSpecialtyOpen && (
+          <div className="absolute bg-white shadow-lg rounded-md mt-2 w-72 sm:w-80 z-10">
+            <ul className="p-4 grid grid-cols-1 gap-2 max-h-60 overflow-y-scroll">
+              {specialties.map((specialty, index) => (
+                <li key={index} className="text-text">
+                  {specialty}
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      </section>
+        )}
+      </div>
+
+      {/* Search Bar Section */}
+      <div className="flex w-full">
+        <input
+          type="text"
+          placeholder="Search for doctors"
+          className="flex-grow px-4 py-3 border border-gray-300 rounded-l-md text-text focus:outline-none focus:border-primary"
+        />
+        <Link href="/find-doctors">
+          <button className="bg-primary text-text text-sm sm:text-lg font-semibold px-4 sm:px-6 py-3 rounded-r-md hover:bg-accent hover:text-white transition-all duration-300 shadow-lg">
+            Search
+          </button>
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <div className="bg-blue-50 py-6 sm:py-10">
         <h2 className="text-center text-xl sm:text-2xl font-semibold text-gray-800">
@@ -187,20 +191,20 @@ export default function Mainsection() {
       </section>
 
       <section className="py-12 px-4 bg-white">
-  <h2 className="text-3xl font-bold text-primary mb-6 text-center">What Our Users Say</h2>
-  <div className="max-w-4xl mx-auto">
-    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-      <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
-        <p className="text-lg text-text mb-4">&quot;MediApp has made finding the right doctor so easy. The appointment booking system is seamless, and I love the reminders!&quot;</p>
-        <cite className="text-primary font-semibold">- Jane Doe</cite>
-      </blockquote>
-      <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
-        <p className="text-lg text-text mb-4">&quot;I appreciate the range of specialties available and the user-friendly interface. Highly recommend for managing your health.&quot;</p>
-        <cite className="text-primary font-semibold">- John Smith</cite>
-      </blockquote>
-    </div>
-  </div>
-</section>
+        <h2 className="text-3xl font-bold text-primary mb-6 text-center">What Our Users Say</h2>
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
+              <p className="text-lg text-text mb-4">&quot;MediApp has made finding the right doctor so easy. The appointment booking system is seamless, and I love the reminders!&quot;</p>
+              <cite className="text-primary font-semibold">- Jane Doe</cite>
+            </blockquote>
+            <blockquote className="bg-gray-100 p-6 rounded-lg shadow-md">
+              <p className="text-lg text-text mb-4">&quot;I appreciate the range of specialties available and the user-friendly interface. Highly recommend for managing your health.&quot;</p>
+              <cite className="text-primary font-semibold">- John Smith</cite>
+            </blockquote>
+          </div>
+        </div>
+      </section>
 
 
       <section className="bg-blue-600 text-white py-10 sm:py-16 text-center">

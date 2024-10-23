@@ -8,6 +8,7 @@ import ConsultationFees from "../components/ConsultationFees";
 import ConsultationTimings from "../components/ConsultationTimings";
 import DoctorInfo from "../components/DoctorInfo";
 import AppointmentCard from "../components/AppointmentCard";
+import { FaBars } from 'react-icons/fa'; // Hamburger icon
 
 // Example Loader component
 const Loader = () => (
@@ -54,7 +55,20 @@ const ProfilePage = () => {
 
   const [selectedSection, setSelectedSection] = useState('profile'); // Default to 'profile' section
   const [status, setStatus] = useState(appointments.status);
+  const [sidebarVisible, setSidebarVisible] = useState(false); // Sidebar visibility state
 
+  // Toggle the sidebar visibility
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
+  // Close the sidebar when selecting a section on small screens
+  const handleSectionSelect = (section) => {
+    setSelectedSection(section);
+    if (sidebarVisible) {
+      setSidebarVisible(false); // Close the sidebar on small screens after a section is selected
+    }
+  };
   const handleStatusChange = (e) => {
     const newStatus = e.target.value;
     setStatus(newStatus);
@@ -62,49 +76,45 @@ const ProfilePage = () => {
     // Here you can also make an API call to update the status in the database
     // Example: await updateAppointmentStatus(appointment._id, newStatus);
   };
-  
+
 
   // Render different content based on the selected section
   const renderSection = () => {
     switch (selectedSection) {
       case 'profile':
-        return (
-          <div>
-            <DoctorInfo doctorData={doctorData} 
-              isEditing={isEditing}  />
-            {/* Specialties */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">Specialties</h2>
-              {isEditing ? (
-                <input
-                  className="w-1/2 p-2 border border-gray-300 rounded-md"
-                  value={specialities.join(", ")}
-                  onChange={(e) => setSpecialities(e.target.value.split(", "))}
-                />
-              ) : (
-                <p className="text-gray-600">{specialities.length ? specialities.join(", ") : "No specialties listed."}</p>
-              )}
-            </div>
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">About Me</h2>
-              {isEditing ? (
-                <textarea
-                  className="w-1/2 p-2 border border-gray-300 rounded-md"
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                />
-              ) : (
-                <p className="text-gray-600">
-                  {bio || "This doctor hasn't provided a bio yet."}
-                </p>
-              )}
-            </div>
+          return (
+              <div>
+                  <DoctorInfo doctorData={doctorData} isEditing={isEditing} />
+                  <div className="mb-8">
+                      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Specialties</h2>
+                      {isEditing ? (
+                          <input
+                              className="w-full p-2 border border-gray-300 rounded-md"
+                              value={specialities.join(", ")}
+                              onChange={(e) => setSpecialities(e.target.value.split(", "))}
+                          />
+                      ) : (
+                          <p className="text-gray-600">{specialities.length ? specialities.join(", ") : "No specialties listed."}</p>
+                      )}
+                  </div>
+                  <div className="mb-8">
+                      <h2 className="text-2xl font-semibold text-gray-800 mb-4">About Me</h2>
+                      {isEditing ? (
+                          <textarea
+                              className="w-full p-2 border border-gray-300 rounded-md"
+                              value={bio}
+                              onChange={(e) => setBio(e.target.value)}
+                          />
+                      ) : (
+                          <p className="text-gray-600">{bio || "This doctor hasn't provided a bio yet."}</p>
+                      )}
+                  </div>
             <ConsultationTimings
               consultationStart={consultationStart}
               setConsultationStart={setConsultationStart}
               consultationEnd={consultationEnd}
               setConsultationEnd={setConsultationEnd}
-              isEditing={isEditing} 
+              isEditing={isEditing}
             />
           </div>
         );
@@ -149,28 +159,28 @@ const ProfilePage = () => {
             </div>
           </div>
         );
-        case 'appointments':
-          return (
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Appointments</h2>
-              {appointments.length === 0 ? (
-                <p>You have no upcoming appointments.</p>
-              ) : (
-                <ul className="space-y-4">
-          {appointments.map((appointment) => (
-            <li key={appointment._id}>
-              <AppointmentCard 
-                appointment={appointment} 
-                onUpdateStatus={updateAppointmentStatus} 
-              />
-            </li>
-          ))}
-        </ul>
+      case 'appointments':
+        return (
+          <div>
+            <h2 className="text-2xl font-bold mb-4">Appointments</h2>
+            {appointments.length === 0 ? (
+              <p>You have no upcoming appointments.</p>
+            ) : (
+              <ul className="space-y-4">
+                {appointments.map((appointment) => (
+                  <li key={appointment._id}>
+                    <AppointmentCard
+                      appointment={appointment}
+                      onUpdateStatus={updateAppointmentStatus}
+                    />
+                  </li>
+                ))}
+              </ul>
 
-              )}
-            </div>
-          );
-        
+            )}
+          </div>
+        );
+
       case 'consultations':
         return (
           <div>
@@ -211,42 +221,42 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchAppointments = async () => {
-        try {
-            const response = await fetch("/api2/appointments/doctors"); // Ensure this is correct
-            if (!response.ok) throw new Error("Failed to fetch appointments");
-            const data = await response.json();
-            console.log("Fetched appointments:", data); // Log the fetched data
-            setAppointments(data || []);
-        } catch (err) {
-            setError(err.message);
-        }
+      try {
+        const response = await fetch("/api2/appointments/doctors"); // Ensure this is correct
+        if (!response.ok) throw new Error("Failed to fetch appointments");
+        const data = await response.json();
+        console.log("Fetched appointments:", data); // Log the fetched data
+        setAppointments(data || []);
+      } catch (err) {
+        setError(err.message);
+      }
     };
 
     if (selectedSection === 'appointments') {
-        fetchAppointments();
+      fetchAppointments();
     }
-}, [selectedSection]);
+  }, [selectedSection]);
 
-async function updateAppointmentStatus(appointmentId, newStatus) {
-  const response = await fetch(`/api2/appointments/doctors/${appointmentId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ status: newStatus }), // Send the new status in the request body
-  });
+  async function updateAppointmentStatus(appointmentId, newStatus) {
+    const response = await fetch(`/api2/appointments/doctors/${appointmentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: newStatus }), // Send the new status in the request body
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    console.error('Error updating appointment:', errorData);
-    return;
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Error updating appointment:', errorData);
+      return;
+    }
+
+    const updatedAppointment = await response.json();
+    console.log('Updated appointment:', updatedAppointment);
   }
 
-  const updatedAppointment = await response.json();
-  console.log('Updated appointment:', updatedAppointment);
-}
 
-  
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -358,39 +368,51 @@ async function updateAppointmentStatus(appointmentId, newStatus) {
   if (!doctorData) return <div className="mt-24"><Loader /></div>;
 
   return (
-    <div className="flex max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-28">
-      {/* Sidebar */}
-      <DoctorProfileSidebar setSection={setSelectedSection} />
-
-      {/* Main Content */}
-      <div className="flex-1 p-6">
-
-        {/* Editable Button */}
-        <div className="mb-8 flex justify-end">
-          <button
-          onClick={() => setIsEditing(!isEditing)}
-          className={`${
-            isEditing ? 'bg-red-500' : 'bg-blue-500'
-          } text-white px-4 py-2 rounded-md`}
+    <div className="relative flex flex-col lg:flex-row max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-28">
+        {/* Hamburger Icon (Visible on mobile) */}
+        <button
+            className="lg:hidden absolute top-4 left-4 text-2xl p-2 bg-gray-100 rounded-full"
+            onClick={toggleSidebar}
         >
-          {isEditing ? 'Cancel Editing' : 'Edit Profile'}
+            <FaBars />
         </button>
+        {/* Sidebar (Hidden on small screens) */}
+        <div
+            className={`absolute lg:relative top-0 left-0 z-10 h-full bg-white shadow-lg transition-transform duration-300 ease-in-out ${
+                sidebarVisible ? 'translate-x-0' : '-translate-x-full'
+            } lg:translate-x-0 w-64`}
+        >
+            <DoctorProfileSidebar setSection={handleSectionSelect} />
         </div>
-        {renderSection()}
-
-        {isEditing && (
-          <div className="flex justify-end">
-            <button
-              className="bg-green-500 text-white px-4 py-2 rounded-md"
-              onClick={handleSave}
-            >
-              Save Changes
-            </button>
-          </div>
-        )}
-      </div>
+        {/* Main Content */}
+        <div className="flex-1 p-6 lg:ml-20">
+            {/* Editable Button */}
+            <div className="mb-8 flex justify-end">
+                <button
+                    onClick={() => setIsEditing(!isEditing)}
+                    className={`px-4 py-2 rounded-md text-white ${
+                        isEditing ? 'bg-red-500' : 'bg-blue-500'
+                    }`}
+                >
+                    {isEditing ? 'Cancel Editing' : 'Edit Profile'}
+                </button>
+            </div>
+            {/* Render the selected section */}
+            {renderSection()}
+            {/* Save Changes Button */}
+            {isEditing && (
+                <div className="flex justify-end mt-4">
+                    <button
+                        className="bg-green-500 text-white px-4 py-2 rounded-md"
+                        onClick={handleSave}
+                    >
+                        Save Changes
+                    </button>
+                </div>
+            )}
+        </div>
     </div>
-  );
+);
 };
 
 export default ProfilePage;

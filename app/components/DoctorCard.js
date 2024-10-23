@@ -3,10 +3,10 @@ import Link from "next/link";
 
 const DoctorCard = ({ doctor }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 duration-300 ease-in-out p-6">
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 duration-300 ease-in-out p-4 sm:p-6">
       {/* Header section with Doctor Name and Image */}
-      <div className="flex items-center p-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-lg">
-        <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mr-4 overflow-hidden shadow-md">
+      <div className="flex flex-col sm:flex-row items-center p-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-lg">
+        <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mr-0 sm:mr-4 mb-4 sm:mb-0 overflow-hidden shadow-md">
           <Image
             src={doctor.profilePicture || "/assets/docProfile.png"} // Provide a default image if none exists
             alt="Doctor"
@@ -15,8 +15,8 @@ const DoctorCard = ({ doctor }) => {
             className="object-cover w-full h-full"
           />
         </div>
-        <div>
-          <h2 className="text-2xl font-bold">{doctor.dr_title} {doctor.fullName}</h2>
+        <div className="text-center sm:text-left">
+          <h2 className="text-xl sm:text-2xl font-bold">{doctor.dr_title} {doctor.fullName}</h2>
           <p className="text-sm italic">{doctor.specialities.join(", ")}</p>
         </div>
       </div>

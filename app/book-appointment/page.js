@@ -52,11 +52,11 @@ export default function AppointmentBooking() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Reset messages
     setError('');
     setSuccessMessage('');
-  
+
     // Format the data to send to the API
     const formattedData = {
       doctorId: formData.doctor,  // Rename 'doctor' to 'doctorId'
@@ -65,7 +65,7 @@ export default function AppointmentBooking() {
       appointmentType: formData.appointmentType,
       additionalDetails: formData.additionalDetails
     };
-  
+
     try {
       const response = await fetch("/api2/appointments/books", {
         method: 'POST',
@@ -74,9 +74,9 @@ export default function AppointmentBooking() {
         },
         body: JSON.stringify(formattedData),  // Send the formatted data to the backend
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         setSuccessMessage('Appointment booked successfully');
       } else {
@@ -89,10 +89,10 @@ export default function AppointmentBooking() {
   };
 
   return (
-    <div className="flex flex-row items-center justify-evenly min-h-screen bg-white">
+    <div className="flex flex-col md:flex-row items-center justify-evenly min-h-screen bg-white">
       {/* Left side form */}
-      <div className="w-2/6 p-8 bg-white shadow-2xl rounded-lg ml-16">
-        <h2 className="text-3xl font-bold mb-8 text-primary">Book an Appointment</h2>
+      <div className="w-full md:w-2/6 p-6 md:p-8 bg-white shadow-2xl rounded-lg ml-0 md:ml-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 text-primary">Book an Appointment</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Doctor Selection */}
@@ -117,7 +117,7 @@ export default function AppointmentBooking() {
           {/* Appointment Type */}
           <div>
             <h3 className="text-lg font-medium text-gray-700 mb-2">Appointment Type</h3>
-            <div className='flex'>
+            <div className="flex flex-wrap">
               <div className="flex items-center mb-2">
                 <input
                   id="doctorsChamber"
@@ -209,12 +209,12 @@ export default function AppointmentBooking() {
       </div>
 
       {/* Right side video */}
-      <div className=" w-1/2 h-screen relative ml-0 mt-20">
+      <div className="w-1/2 h-screen relative hidden lg:block ml-0 mt-20">
         <video
           autoPlay
           loop
           muted
-          className="absolute inset-0 w-full h-3/4  object-cover"
+          className="absolute inset-0 w-full h-3/4 object-cover"
         >
           <source src="/assets/booking.mp4" type="video/mp4" />
           Your browser does not support the video tag.
